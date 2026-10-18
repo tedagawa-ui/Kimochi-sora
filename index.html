@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="きもち">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#D6EEFA">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" href="data:image/png;base64,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">
+<title>きもちのおそら</title>
+<style>
+  :root{
+    --sky:#D6EEFA; --sun:#FFD36B; --coral:#FF8FA3; --mint:#A5E3C8; --ink:#4A3B63; --paper:#FFFFFF; --soft:#F3EAFB;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;-webkit-text-size-adjust:100%}
+  body{font-family:"Hiragino Maru Gothic ProN","M PLUS Rounded 1c","Yu Gothic","Meiryo",sans-serif;color:var(--ink);background:var(--sky);min-height:100vh}
+  #app{max-width:520px;margin:0 auto;padding:16px 16px 96px;min-height:100vh;background:linear-gradient(180deg,var(--sky) 0%,#EAF7FD 60%,#FFF6DC 100%)}
+  h1{font-size:26px;margin:8px 0 2px;letter-spacing:.04em}
+  h2{font-size:22px;margin:6px 0 14px;text-align:center}
+  p{line-height:1.7;margin:6px 0}
+  .sub{font-size:14px;opacity:.8;text-align:center}
+  .card{background:var(--paper);border-radius:28px;padding:20px 18px;margin:12px 0;box-shadow:0 6px 0 rgba(74,59,99,.12)}
+  .dots{display:flex;gap:8px;justify-content:center;margin:6px 0 10px}
+  .dots i{width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--ink);opacity:.35}
+  .dots i.on{background:var(--coral);opacity:1}
+  .faceWrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .num{font-size:56px;font-weight:700;line-height:1}
+  .num small{font-size:20px;margin-left:4px}
+  .label{font-size:18px;min-height:28px;font-weight:700}
+  input[type=range]{width:100%;height:56px;-webkit-appearance:none;appearance:none;background:transparent;margin:6px 0}
+  input[type=range]::-webkit-slider-runnable-track{height:18px;border-radius:12px;background:linear-gradient(90deg,#A9B8D6,#8FD3C0,#FFD36B)}
+  input[type=range]::-moz-range-track{height:18px;border-radius:12px;background:linear-gradient(90deg,#A9B8D6,#8FD3C0,#FFD36B)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:44px;border-radius:50%;background:#fff;border:6px solid var(--coral);margin-top:-15px;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+  input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;background:#fff;border:6px solid var(--coral)}
+  .ends{display:flex;justify-content:space-between;font-size:13px;opacity:.75}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .grid .big:last-child:nth-child(odd){grid-column:1/-1}
+  .big{font:inherit;color:var(--ink);background:var(--soft);border:4px solid transparent;border-radius:22px;padding:14px 8px;min-height:84px;font-size:17px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 4px 0 rgba(74,59,99,.14);transition:transform .08s}
+  .big .e{font-size:34px;line-height:1}
+  .big:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,99,.14)}
+  .big.sel{border-color:var(--coral);background:#FFE5EA}
+  .chip{font:inherit;color:var(--ink);background:var(--soft);border:3px solid transparent;border-radius:999px;padding:12px 14px;font-size:16px;font-weight:700;cursor:pointer;min-height:48px}
+  .chip.sel{border-color:var(--mint);background:#E2F8EE}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .group{font-size:15px;font-weight:700;margin:16px 0 8px}
+  textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);border:3px solid var(--soft);border-radius:18px;padding:12px;min-height:76px;resize:none;background:#fff}
+  textarea:focus{outline:none;border-color:var(--coral)}
+  .nav{display:flex;gap:12px;margin-top:16px}
+  .btn{flex:1;font:inherit;font-size:19px;font-weight:700;color:#fff;background:var(--coral);border:none;border-radius:24px;min-height:60px;cursor:pointer;box-shadow:0 5px 0 #D96A80}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #D96A80}
+  .btn.ghost{background:#fff;color:var(--ink);box-shadow:0 5px 0 rgba(74,59,99,.16);flex:.6}
+  .btn.mint{background:#55C79B;box-shadow:0 5px 0 #3AA67D}
+  .btn.small{font-size:15px;min-height:46px;border-radius:18px}
+  .tabs{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:blur(6px);box-shadow:0 -3px 0 rgba(74,59,99,.08)}
+  .tabs button{font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:transparent;border:none;border-radius:18px;padding:8px 14px;min-width:96px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .tabs button .e{font-size:24px}
+  .tabs button.on{background:var(--sun)}
+  .day{padding:10px 0;border-bottom:2px dashed #EEE6F6}
+  .day:last-child{border-bottom:none}
+  .dayHead{font-weight:700;font-size:15px;margin-bottom:6px}
+  .chain{display:flex;align-items:center;flex-wrap:wrap;gap:2px;font-size:13px}
+  .chain .it{display:flex;flex-direction:column;align-items:center;font-size:12px;line-height:1.2}
+  .chain .ar{opacity:.5;font-size:16px;margin:0 2px}
+  .row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:14px}
+  .row .tm{width:44px;font-weight:700}
+  .row .t{flex:1;line-height:1.5}
+  .x{font:inherit;border:none;background:#F3EAFB;color:var(--ink);border-radius:12px;min-width:36px;min-height:36px;cursor:pointer}
+  .x.arm{background:#FFD0D0}
+  .bar{height:16px;border-radius:10px;background:#EFE8F7;overflow:hidden;flex:1}
+  .bar b{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,#A9B8D6,#8FD3C0,#FFD36B)}
+  .stat{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px}
+  .stat .n{width:118px;font-weight:700;line-height:1.3}
+  .stat .v{width:50px;text-align:right;font-weight:700}
+  table.mx{width:100%;border-collapse:separate;border-spacing:4px;font-size:14px;text-align:center}
+  table.mx th{font-size:20px;font-weight:700;padding:2px}
+  table.mx th.wd{font-size:15px;text-align:left;width:34px}
+  table.mx td{border-radius:12px;padding:8px 2px;font-weight:700;background:#F6F1FA}
+  table.mx td small{display:block;font-weight:400;font-size:11px;opacity:.7}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;margin-top:6px;justify-content:center}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+  .note{font-size:13px;background:var(--soft);border-radius:16px;padding:10px 12px;line-height:1.7}
+  .done{text-align:center}
+  .done .stamp{font-size:20px;font-weight:700;margin:10px 0}
+  .pop{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+  @media (prefers-reduced-motion:reduce){.pop{animation:none}.big{transition:none}}
+  button:focus-visible,input:focus-visible,textarea:focus-visible{outline:4px solid var(--ink);outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ---------- データ ---------- */
+const WEATHER = [
+  {k:'sunny', e:'☀️', n:'はれ'},
+  {k:'cloudy', e:'☁️', n:'くもり'},
+  {k:'rain', e:'🌧️', n:'あめ'},
+  {k:'snow', e:'❄️', n:'ゆき'},
+  {k:'wind', e:'🌪️', n:'かぜ・あらし'},
+];
+/* 並び順 = おうちから とおい じゅん */
+const PLACES = [
+  {k:'home', e:'🏠', n:'おうち',        at:'おうちでの',         c:'#7C8DB5'},
+  {k:'gate', e:'🚪', n:'げんかん',      at:'げんかんでの',       c:'#F2A65A'},
+  {k:'geta', e:'👟', n:'げたばこ',      at:'げたばこでの',       c:'#B98BD9'},
+  {k:'staff',e:'👩‍🏫', n:'しょくいんしつ', at:'しょくいんしつでの', c:'#55C79B'},
+  {k:'class',e:'🏫', n:'きょうしつ',    at:'きょうしつでの',     c:'#FF6F91'},
+  {k:'back', e:'🏡', n:'かえってきた',  at:'かえってきてからの', c:'#4DB6D6'},
+  {k:'bath', e:'🛁', n:'おふろ',        at:'おふろでの',         c:'#E58FD0'},
+  {k:'bed',  e:'🌙', n:'ねるまえ',      at:'ねるまえの',         c:'#6C63B5'},
+];
+/* 前のバージョンで きろくした ばしょ（えらべないが、きろくは のこす） */
+const LEGACY_PLACES = [
+  {k:'hoken',e:'🌱', n:'ほけんしつ',   at:'ほけんしつでの', c:'#8FD3C0'},
+];
+const TAGS = [
+  {g:'からだ', items:['よくねむれた','ねむれなかった','あさごはん たべた','おなかが いたい','あたまが いたい','げんきだった']},
+  {g:'がっこう', items:['たいいくが ある','さんすうが ある','こくごが ある','きゅうしょくが ある','ともだちと あえた','せんせいと はなせた']},
+  {g:'いえ・まわり', items:['おうちの ひとと いっしょ','あさ ばたばたした','おでかけが あった','たのしみが ある']},
+];
+const MOOD_LABEL = ['とっても つらい','つらい','つらい','ちょっと いや','ちょっと いや','ふつう','ふつう','いいかんじ','いいかんじ','とっても いい','さいこう！'];
+const WD = ['日','月','火','水','木','金','土'];
+const WD_ORDER = [1,2,3,4,5,6,0];
+
+let entries = [];
+let mem = [];
+let storageMode = 'memory';   // 'local'=この たんまつ / 'claude'=Claude の なか / 'memory'=ほぞん できない
+const KEY = 'mood-entries';
+const store = {
+  async load(){
+    try{
+      window.localStorage.setItem('__t','1'); window.localStorage.removeItem('__t');
+      storageMode = 'local';
+      const t = window.localStorage.getItem(KEY);
+      return t ? JSON.parse(t) : [];
+    }catch(e){ if(storageMode==='local') return []; }
+    try{
+      if(window.storage && window.storage.get){
+        // Claude の なかで ほんとうに ほぞんできるか ためす
+        let ok = false;
+        try{ const t = await window.storage.set('__t','1'); ok = !!t; }catch(e){ ok = false; }
+        storageMode = ok ? 'claude' : 'memory';
+        if(!ok) return mem;
+        try{ const r = await window.storage.get(KEY); return r ? JSON.parse(r.value) : []; }catch(e){ return []; }
+      }
+    }catch(e){ return []; }
+    return mem;
+  },
+  async save(v){
+    mem = v;
+    if(storageMode==='local'){ try{ window.localStorage.setItem(KEY, JSON.stringify(v)); }catch(e){ storageMode='memory'; } }
+    else if(storageMode==='claude'){ try{ const r = await window.storage.set(KEY, JSON.stringify(v)); if(!r) storageMode='memory'; }catch(e){ storageMode='memory'; } }
+  }
+};
+
+/* ---------- ユーティリティ ---------- */
+const $app = document.getElementById('app');
+const pad2 = n => String(n).padStart(2,'0');
+const todayKey = () => { const d=new Date(); return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); };
+const nowTime = () => { const d=new Date(); return pad2(d.getHours())+':'+pad2(d.getMinutes()); };
+const dateLabel = k => { const [,m,d]=k.split('-'); return (+m)+'/'+(+d); };
+const wdOf = k => { const [y,m,d]=k.split('-'); return new Date(+y,+m-1,+d).getDay(); };
+const esc = s => String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const wOf = k => WEATHER.find(w=>w.k===k) || {e:'',n:''};
+const pOf = k => PLACES.find(p=>p.k===k) || LEGACY_PLACES.find(p=>p.k===k) || {e:'',n:'',at:'',c:'#999'};
+const lvl = k => PLACES.findIndex(p=>p.k===k);
+const avg = a => a.reduce((s,x)=>s+x,0)/a.length;
+const moodColor = v => `hsl(${Math.round(215-(v/10)*170)} 75% 84%)`;
+const sortEntries = a => [...a].sort((x,y)=> x.date!==y.date ? (x.date<y.date?-1:1) : (x.time||'')!==(y.time||'') ? ((x.time||'')<(y.time||'')?-1:1) : (String(x.id)<String(y.id)?-1:1));
+const byDate = list => { const m={}; sortEntries(list).forEach(e=>{ (m[e.date]=m[e.date]||[]).push(e); }); return m; };
+
+function face(v, size=160){
+  const hue = Math.round(215 - (v/10)*170);
+  const fill = `hsl(${hue} 75% 78%)`;
+  const cy = 62 + (v-5)*5.4;
+  const browTilt = (5 - v) * 0.9;
+  const tear = v<=2 ? `<path d="M30 52 q-3 8 0 11 q3 -3 0 -11z" fill="#6FB6E8"/>` : '';
+  const cheek = v>=7 ? `<circle cx="27" cy="58" r="5" fill="#FF8FA3" opacity=".55"/><circle cx="73" cy="58" r="5" fill="#FF8FA3" opacity=".55"/>` : '';
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" role="img" aria-label="きもち ${v}">
+    <circle cx="50" cy="50" r="44" fill="${fill}" stroke="#4A3B63" stroke-width="4"/>
+    <line x1="28" y1="${34+browTilt}" x2="40" y2="${34-browTilt}" stroke="#4A3B63" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="60" y1="${34-browTilt}" x2="72" y2="${34+browTilt}" stroke="#4A3B63" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="35" cy="45" r="4.5" fill="#4A3B63"/><circle cx="65" cy="45" r="4.5" fill="#4A3B63"/>
+    ${cheek}${tear}
+    <path d="M33 66 Q50 ${cy} 67 66" fill="none" stroke="#4A3B63" stroke-width="4.5" stroke-linecap="round"/>
+  </svg>`;
+}
+
+/* ---------- 状態 ---------- */
+let tab = 'write';
+let step = 1;
+let draft = {};
+let justSaved = null;
+let resetArmed = false;
+let delArmed = null;
+
+function startDraft(){
+  const todays = sortEntries(entries.filter(e=>e.date===todayKey()));
+  const last = todays[todays.length-1];
+  draft = {mood:5, weather: last ? last.weather : null, place:null, tags: last ? [...(last.tags||[])] : [], memo:'', time:nowTime()};
+  step = 1; justSaved = null;
+}
+
+/* ---------- 画面: つける ---------- */
+function chainHtml(list, withTime){
+  return `<div class="chain">${list.map((e,i)=>`${i?'<span class="ar">→</span>':''}<span class="it">${face(e.mood,34)}<span>${pOf(e.place).e}${e.mood}${withTime&&e.time?'<br>'+e.time:''}</span></span>`).join('')}</div>`;
+}
+
+function renderWrite(){
+  if(justSaved) return renderDone();
+  const todays = sortEntries(entries.filter(e=>e.date===todayKey()));
+  let body = '';
+  if(step===4){
+    body = `<h2>${pOf(draft.place).e} ${pOf(draft.place).at} きもちは？</h2>
+    <div class="card"><div class="faceWrap">
+      <div id="faceBox">${face(draft.mood)}</div>
+      <div class="num"><span id="numBox">${draft.mood}</span><small>てん</small></div>
+      <div class="label" id="labelBox">${MOOD_LABEL[draft.mood]}</div>
+    </div>
+    <input type="range" id="mood" min="0" max="10" step="1" value="${draft.mood}" aria-label="きもちの てんすう">
+    <div class="ends"><span>0 つらい</span><span>10 さいこう</span></div></div>
+    <p class="sub">0から10の どこかな？ すきに えらんでね<br>🕒 きろくした じかんは じどうで はいるよ</p>`;
+  } else if(step===3){
+    body = `<h2>いま どこまで いけた？</h2>
+    <div class="grid">${PLACES.map(p=>`<button class="big ${draft.place===p.k?'sel':''}" data-place="${p.k}"><span class="e">${p.e}</span>${p.n}</button>`).join('')}</div>
+    <p class="sub">どれでも だいじょうぶ。かえってきたら 🏡、おふろは 🛁、ねるまえは 🌙 を えらんでね</p>`;
+  } else if(step===1){
+    body = `<h2>いまの てんきは？</h2>
+    <div class="grid3">${WEATHER.slice(0,3).map(w=>wBtn(w)).join('')}</div>
+    <div class="grid" style="margin-top:12px">${WEATHER.slice(3).map(w=>wBtn(w)).join('')}</div>
+    <p class="sub">まどの そとを みてみよう</p>`;
+  } else {
+    body = `<h2>いまの ようす</h2>
+    <div class="card">${TAGS.map(g=>`<div class="group">${g.g}</div><div class="chips">${g.items.map(t=>`<button class="chip ${draft.tags.includes(t)?'sel':''}" data-tag="${esc(t)}">${t}</button>`).join('')}</div>`).join('')}
+    <div class="group">ひとこと（かかなくても いいよ）</div>
+    <textarea id="memo" maxlength="120" placeholder="おもったこと、おうちのひとに つたえたいこと">${esc(draft.memo)}</textarea></div>`;
+  }
+  const nav = step===1 ? `<div class="nav"><button class="btn" id="next">${draft.weather?'つぎへ':'とばす'}</button></div>` :
+    step===2 ? `<div class="nav"><button class="btn ghost" id="back">もどる</button><button class="btn" id="next">つぎへ</button></div>` :
+    step===3 ? `<div class="nav"><button class="btn ghost" id="back">もどる</button></div>` :
+    `<div class="nav"><button class="btn ghost" id="back">もどる</button><button class="btn mint" id="save">きろくする ⭐</button></div>`;
+  const todayBox = (todays.length && step===1) ? `<div class="card" style="padding:12px 14px"><div class="group" style="margin:0 0 6px">きょうの ここまで</div>${chainHtml(todays,true)}</div>` : '';
+  return `<h1>🌤️ きもちの おそら</h1>
+    <p class="sub">てんき → じょうけん → ばしょ → きもち の じゅんに えらんでね</p>
+    ${todayBox}${dotsHtml()}${body}${nav}`;
+}
+function dotsHtml(){ return `<div class="dots" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=step?'on':''}"></i>`).join('')}</div>`; }
+function wBtn(w){ return `<button class="big ${draft.weather===w.k?'sel':''}" data-weather="${w.k}"><span class="e">${w.e}</span>${w.n}</button>`; }
+
+function renderDone(){
+  const e = justSaved;
+  const todays = sortEntries(entries.filter(x=>x.date===todayKey()));
+  const msg = e.mood<=3 ? 'おしえてくれて ありがとう。<br>いま よく がんばってるね。' : e.mood<=6 ? 'きろく できたよ！<br>えらいね。' : 'きろく できたよ！<br>いい かんじ だね。';
+  return `<h1>🌤️ きもちの おそら</h1>
+    <div class="card done pop">
+      <div style="display:flex;justify-content:center">${face(e.mood,140)}</div>
+      <div class="stamp">🕒 ${e.time} ／ ${pOf(e.place).e} ${wOf(e.weather).e} ${e.mood}てん</div>
+      <p>${msg}</p>
+      ${todays.length>1?`<div style="display:flex;justify-content:center;margin-top:8px">${chainHtml(todays,false)}</div>`:''}
+    </div>
+    <div class="nav"><button class="btn ghost" id="again">つぎの ばしょ</button><button class="btn" id="goLook">🌈 みてみる</button></div>`;
+}
+
+/* ---------- 画面: みる ---------- */
+function renderLook(){
+  if(!entries.length) return `<h1>🌈 きもちの きろく</h1><div class="card"><p class="sub">まだ なにも ないよ。<br>「つける」から はじめてみよう</p></div>`;
+  const days = byDate(entries);
+  const dates = Object.keys(days).sort();
+  const recent = dates.slice(-14);
+  const W=320,H=150,pad=22;
+  const xs = i => recent.length===1 ? W/2 : pad + i*(W-2*pad)/(recent.length-1);
+  const ys = v => H-pad-(v/10)*(H-2*pad-10);
+  let lines='';
+  PLACES.forEach(p=>{
+    const pts = recent.map((d,i)=>{ const l=days[d].filter(e=>e.place===p.k); return l.length ? {x:xs(i), y:ys(avg(l.map(e=>e.mood)))} : null; }).filter(Boolean);
+    if(pts.length>1) lines += `<polyline points="${pts.map(q=>q.x+','+q.y).join(' ')}" fill="none" stroke="${p.c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>`;
+    lines += pts.map(q=>`<circle cx="${q.x}" cy="${q.y}" r="5.5" fill="#fff" stroke="${p.c}" stroke-width="3.5"/>`).join('');
+  });
+  const chart = `<svg viewBox="0 0 ${W} ${H+14}" width="100%" role="img" aria-label="ばしょごとの きもちの グラフ">
+    ${[0,5,10].map(v=>`<line x1="${pad}" x2="${W-pad}" y1="${ys(v)}" y2="${ys(v)}" stroke="#E6DDF0" stroke-dasharray="4 4"/><text x="2" y="${ys(v)+4}" font-size="11" fill="#4A3B63">${v}</text>`).join('')}
+    ${lines}
+    <text x="${xs(0)}" y="${H+8}" font-size="10" text-anchor="middle" fill="#4A3B63">${dateLabel(recent[0])}</text>
+    ${recent.length>1?`<text x="${xs(recent.length-1)}" y="${H+8}" font-size="10" text-anchor="middle" fill="#4A3B63">${dateLabel(recent[recent.length-1])}</text>`:''}
+  </svg>
+  <div class="legend">${PLACES.map(p=>`<span><i style="background:${p.c}"></i>${p.e}${p.n}</span>`).join('')}</div>`;
+  const list = dates.slice().reverse().slice(0,21).map(d=>{
+    const es = days[d];
+    return `<div class="day"><div class="dayHead">${dateLabel(d)}（${WD[wdOf(d)]}）</div>${chainHtml(es,true)}
+      ${es.map(e=>`<div class="row"><div class="tm">${e.time||''}</div><div class="t">${pOf(e.place).e} ${e.mood}てん ${wOf(e.weather).e}${e.memo?`<br><span style="opacity:.8">${esc(e.memo)}</span>`:''}</div><button class="x ${delArmed===e.id?'arm':''}" data-del="${e.id}" aria-label="けす">${delArmed===e.id?'けす？':'✕'}</button></div>`).join('')}
+    </div>`;
+  }).join('');
+  return `<h1>🌈 きもちの きろく</h1>
+    <div class="card"><div class="group" style="margin-top:0">ばしょごとの きもち（さいきん）</div>${chart}</div>
+    <div class="card">${list}</div>`;
+}
+
+/* ---------- 画面: おとな ---------- */
+function renderAdult(){
+  if(!entries.length) return `<h1>🔑 おとなの ページ</h1><div class="card"><p class="sub">きろくが たまると、曜日・場所ごとの きもちの へいきんと、場所が かわるときの きもちの へんかが ここに でます。</p></div>`;
+  const days = byDate(entries);
+  const dateList = Object.keys(days);
+  const all = avg(entries.map(e=>e.mood));
+  const few = n => n<5 ? '（まだ すくない）' : '';
+  const statRow = (name, list) => { const m=avg(list.map(e=>e.mood)); return `<div class="stat"><div class="n">${name}<br><span style="font-weight:400;opacity:.7">${list.length}回${few(list.length)}</span></div><div class="bar"><b style="width:${m*10}%"></b></div><div class="v">${m.toFixed(1)}</div></div>`; };
+
+  // 曜日 × 場所
+  const matrix = `<table class="mx"><tr><th class="wd"></th>${PLACES.map(p=>`<th title="${p.n}">${p.e}</th>`).join('')}</tr>
+    ${WD_ORDER.map(w=>`<tr><th class="wd">${WD[w]}</th>${PLACES.map(p=>{
+      const l=entries.filter(e=>wdOf(e.date)===w && e.place===p.k);
+      if(!l.length) return `<td style="color:#BBB">-</td>`;
+      const m=avg(l.map(e=>e.mood));
+      return `<td style="background:${moodColor(m)}">${m.toFixed(1)}<small>${l.length}回</small></td>`;
+    }).join('')}</tr>`).join('')}</table>
+    <p class="sub" style="margin-top:6px">${PLACES.map(p=>p.e+p.n).join(' ／ ')}</p>`;
+
+  // 曜日ごと
+  const wdRows = WD_ORDER.map(w=>{
+    const l = entries.filter(e=>wdOf(e.date)===w); if(!l.length) return '';
+    const ds = dateList.filter(d=>wdOf(d)===w);
+    const reach = ds.filter(d=>days[d].some(e=>e.place==='class')).length;
+    return statRow(`${WD[w]}ようび<br><span style="font-weight:400;opacity:.7">きょうしつ ${reach}/${ds.length}日</span>`, l).replace(/<br><span style="font-weight:400;opacity:.7">\d+回[^<]*<\/span>/,'');
+  }).join('');
+  const wdRows2 = WD_ORDER.map(w=>{
+    const l = entries.filter(e=>wdOf(e.date)===w); if(!l.length) return '';
+    const ds = dateList.filter(d=>wdOf(d)===w);
+    const reach = ds.filter(d=>days[d].some(e=>e.place==='class')).length;
+    const m = avg(l.map(e=>e.mood));
+    return `<div class="stat"><div class="n">${WD[w]}ようび<br><span style="font-weight:400;opacity:.7">${l.length}回${few(l.length)}<br>きょうしつ ${reach}/${ds.length}日</span></div><div class="bar"><b style="width:${m*10}%"></b></div><div class="v">${m.toFixed(1)}</div></div>`;
+  }).join('');
+
+  // 場所ごと
+  const placeRows = PLACES.map(p=>[p, entries.filter(e=>e.place===p.k)]).filter(x=>x[1].length).map(([p,l])=>statRow(p.e+' '+p.n,l)).join('');
+
+  // 場所が かわる ときの へんか
+  const trans = {};
+  dateList.forEach(d=>{ const es=days[d]; for(let i=1;i<es.length;i++){ const a=es[i-1], b=es[i]; if(a.place!==b.place){ const k=a.place+'>'+b.place; (trans[k]=trans[k]||[]).push(b.mood-a.mood); } } });
+  const transRows = Object.entries(trans).sort((a,b)=>b[1].length-a[1].length).map(([k,l])=>{
+    const [a,b]=k.split('>'); const m=avg(l); const s=(m>0?'+':'')+m.toFixed(1);
+    return `<div class="stat"><div class="n">${pOf(a).e} → ${pOf(b).e}<br><span style="font-weight:400;opacity:.7">${l.length}回${few(l.length)}</span></div><div class="bar"><b style="width:${Math.min(100,Math.max(0,50+m*10))}%"></b></div><div class="v">${s}</div></div>`;
+  }).join('');
+
+  // てんき・じょうけん
+  const wRows = WEATHER.map(w=>[w, entries.filter(e=>e.weather===w.k)]).filter(x=>x[1].length).map(([w,l])=>statRow(w.e+' '+w.n,l)).join('');
+  const allTags = TAGS.flatMap(g=>g.items);
+  const tRows = allTags.map(t=>[t, entries.filter(e=>e.tags.includes(t))]).filter(x=>x[1].length>=2).map(([t,l])=>statRow(t,l)).join('');
+  const notes = sortEntries(entries).filter(e=>e.memo).reverse().slice(0,8);
+
+  const stText = storageMode==='local' ? '💾 きろくは この たんまつの ブラウザの なかに ほぞんされています' : storageMode==='claude' ? '💾 いまは Claude の なかで ためしています（ダウンロードして つかうと たんまつに ほぞんされます）' : '⚠️ この ブラウザでは ほぞん できません。とじると きろくが きえます';
+  return `<h1>🔑 おとなの ページ</h1>
+    <p class="sub">${stText}</p>
+    <div class="card"><p>きろく <b>${entries.length}</b>回（<b>${dateList.length}</b>日）／ ぜんたいの へいきん <b>${all.toFixed(1)}</b> てん</p>
+      <div class="group">曜日 × 場所の へいきん</div>${matrix}
+      <div class="group">曜日ごとの へいきん</div>${wdRows2}
+      <div class="group">場所ごとの へいきん</div>${placeRows}
+      <div class="group">場所が かわった ときの きもちの へんか</div>
+      ${transRows || '<p class="sub">おなじ日に 場所を かえて 2回以上 きろくすると ここに でます</p>'}
+      <p class="sub" style="text-align:left">＋は きもちが あがった、－は さがった（てん）</p>
+      <div class="group">てんき ごとの へいきん</div>${wRows}
+      ${tRows?`<div class="group">じょうけん ごとの へいきん</div>${tRows}`:''}
+    </div>
+    ${notes.length?`<div class="card"><div class="group" style="margin-top:0">ひとこと</div>${notes.map(e=>`<div class="row"><div class="tm" style="width:56px">${dateLabel(e.date)}</div><div class="t">${pOf(e.place).e} ${esc(e.memo)}</div></div>`).join('')}</div>`:''}
+    <div class="note">📝 みかた：きろくが 5回 みまんの マスは、たまたまの ことも おおいです。曜日ごとの ちがいは、数週間 つづけると みえやすく なります。<br>
+    おこさんに 「かいて」と せかさず、かけない ひが あっても だいじょうぶです。きろくが つづくなら、がっこうの せんせい・スクールカウンセラーへ みせて そうだん するのも ひとつです。</div>
+    <div class="nav"><button class="btn small mint" id="copy">📋 テキストで コピー</button></div>
+    <div class="nav"><button class="btn small mint" id="backup">💾 バックアップを ほぞん</button><button class="btn small ghost" id="restore">📂 ふっかつ</button></div>
+    <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+    <div id="copyMsg" class="sub"></div>
+    <div class="nav"><button class="btn small ghost" id="reset" style="${resetArmed?'background:#FFE0E0':''}">${resetArmed?'ほんとうに ぜんぶ けす（もういちど タップ）':'きろくを ぜんぶ けす'}</button></div>`;
+}
+
+/* ---------- 描画 & イベント ---------- */
+function render(){
+  let html = tab==='write' ? renderWrite() : tab==='look' ? renderLook() : renderAdult();
+  html += `<nav class="tabs" aria-label="メニュー">
+    <button class="${tab==='write'?'on':''}" data-tab="write"><span class="e">✏️</span>つける</button>
+    <button class="${tab==='look'?'on':''}" data-tab="look"><span class="e">🌈</span>みる</button>
+    <button class="${tab==='adult'?'on':''}" data-tab="adult"><span class="e">🔑</span>おとな</button>
+  </nav>`;
+  $app.innerHTML = html;
+  bind();
+}
+
+function bind(){
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{ tab=b.dataset.tab; resetArmed=false; delArmed=null; if(tab==='write' && !justSaved) startDraft(); render(); window.scrollTo(0,0); });
+  const mood = document.getElementById('mood');
+  if(mood){ mood.oninput = ()=>{ draft.mood=+mood.value;
+    document.getElementById('faceBox').innerHTML=face(draft.mood);
+    document.getElementById('numBox').textContent=draft.mood;
+    document.getElementById('labelBox').textContent=MOOD_LABEL[draft.mood]; }; }
+  document.querySelectorAll('[data-weather]').forEach(b=>b.onclick=()=>{ draft.weather=b.dataset.weather; step=2; render(); window.scrollTo(0,0); });
+  document.querySelectorAll('[data-place]').forEach(b=>b.onclick=()=>{ draft.place=b.dataset.place; step=4; render(); window.scrollTo(0,0); });
+  document.querySelectorAll('[data-tag]').forEach(b=>b.onclick=()=>{ const t=b.dataset.tag; const m=document.getElementById('memo'); if(m) draft.memo=m.value;
+    draft.tags = draft.tags.includes(t) ? draft.tags.filter(x=>x!==t) : [...draft.tags,t]; render(); });
+  const next=document.getElementById('next'); if(next) next.onclick=()=>{ if(next.hasAttribute('disabled')) return; step++; render(); window.scrollTo(0,0); };
+  const back=document.getElementById('back'); if(back) back.onclick=()=>{ const m=document.getElementById('memo'); if(m) draft.memo=m.value; step--; render(); };
+  const save=document.getElementById('save'); if(save) save.onclick=async()=>{
+    const m=document.getElementById('memo'); if(m) draft.memo=m.value;
+    const e={id:String(Date.now()), date:todayKey(), time:nowTime(), mood:draft.mood, weather:draft.weather, place:draft.place, tags:draft.tags, memo:draft.memo.trim()};
+    entries.push(e); await store.save(entries); justSaved=e; render(); window.scrollTo(0,0);
+  };
+  const ag=document.getElementById('again'); if(ag) ag.onclick=()=>{ startDraft(); render(); window.scrollTo(0,0); };
+  const gl=document.getElementById('goLook'); if(gl) gl.onclick=()=>{ tab='look'; justSaved=null; startDraft(); render(); window.scrollTo(0,0); };
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.del;
+    if(delArmed!==id){ delArmed=id; render(); } else { entries=entries.filter(e=>e.id!==id); delArmed=null; await store.save(entries); render(); } });
+  const cp=document.getElementById('copy'); if(cp) cp.onclick=()=>{
+    const txt=sortEntries(entries).map(e=>`${e.date}(${WD[wdOf(e.date)]})\t${e.time||''}\t${pOf(e.place).n}\tきもち${e.mood}\t${wOf(e.weather).n}\t${e.tags.join('、')}\t${e.memo}`).join('\n');
+    const msg=document.getElementById('copyMsg');
+    const fb=()=>{ const t=document.createElement('textarea'); t.value=txt; document.body.appendChild(t); t.select(); try{document.execCommand('copy'); msg.textContent='コピーしました';}catch(_){msg.textContent='コピーできませんでした';} t.remove(); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(()=>msg.textContent='コピーしました',fb); } else fb();
+  };
+  const bk=document.getElementById('backup'); if(bk) bk.onclick=()=>{
+    const data=JSON.stringify({app:'kimochi-sora',version:1,exported:new Date().toISOString(),entries},null,1);
+    const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));
+    const a=document.createElement('a'); a.href=url; a.download='kimochi-backup-'+todayKey()+'.json'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+    document.getElementById('copyMsg').textContent='バックアップを ほぞんしました（「ファイル」アプリに はいります）';
+  };
+  const rsb=document.getElementById('restore'), rf=document.getElementById('restoreFile');
+  if(rsb&&rf){ rsb.onclick=()=>rf.click(); rf.onchange=async()=>{
+    const f=rf.files&&rf.files[0]; if(!f) return; const msg=document.getElementById('copyMsg');
+    try{
+      const obj=JSON.parse(await f.text()); const list=Array.isArray(obj)?obj:obj.entries;
+      if(!Array.isArray(list)) throw new Error('bad');
+      const have=new Set(entries.map(e=>e.id)); let n=0;
+      list.forEach((e,i)=>{ if(e&&e.date&&typeof e.mood==='number'){ const id=e.id||('r-'+Date.now()+'-'+i); if(!have.has(id)){ entries.push({...e,id,time:e.time||'',tags:e.tags||[],memo:e.memo||''}); have.add(id); n++; } } });
+      await store.save(entries); render();
+      const m2=document.getElementById('copyMsg'); if(m2) m2.textContent=n+'けん ふっかつしました';
+    }catch(err){ msg.textContent='ファイルを よみこめませんでした'; }
+  }; }
+  const rs=document.getElementById('reset'); if(rs) rs.onclick=async()=>{ if(!resetArmed){ resetArmed=true; render(); } else { entries=[]; await store.save(entries); resetArmed=false; startDraft(); render(); } };
+}
+
+(async()=>{
+  try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+  let raw = await store.load();
+  // 前のバージョンの きろくを 引きつぐ
+  entries = raw.map((e,i)=> e.id ? e : {...e, id:'old-'+i, time:e.time||'', tags:e.tags||[], memo:e.memo||''});
+  startDraft(); render();
+})();
+</script>
+</body>
+</html>
