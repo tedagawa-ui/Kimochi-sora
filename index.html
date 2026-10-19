@@ -82,6 +82,16 @@
   table.mx th.wd{font-size:15px;text-align:left;width:34px}
   table.mx td{border-radius:12px;padding:8px 2px;font-weight:700;background:#F6F1FA}
   table.mx td small{display:block;font-weight:400;font-size:11px;opacity:.7}
+  .calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .calhead b{font-size:18px}
+  .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .cw{text-align:center;font-size:12px;font-weight:700;opacity:.7;padding:2px 0}
+  .cd{font:inherit;color:var(--ink);border:3px solid transparent;border-radius:12px;min-height:64px;padding:2px 0;background:#F6F1FA;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer}
+  .cd.empty{background:transparent;border:none;cursor:default}
+  .cd .dn{font-size:11px;font-weight:700;align-self:flex-start;margin-left:4px;line-height:1.2}
+  .cd .mn{font-size:10px;line-height:1.1}
+  .cd.today{border-color:var(--sun)}
+  .cd.sel{border-color:var(--coral)}
   .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;margin-top:6px;justify-content:center}
   .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:4px;vertical-align:-1px}
   .note{font-size:13px;background:var(--soft);border-radius:16px;padding:10px 12px;line-height:1.7}
@@ -201,11 +211,15 @@ let justSaved = null;
 let resetArmed = false;
 let delArmed = null;
 
-function startDraft(){
-  const todays = sortEntries(entries.filter(e=>e.date===todayKey()));
+let calY = new Date().getFullYear(), calM = new Date().getMonth(), selDate = todayKey();
+
+function startDraft(date){
+  const dk = date || todayKey();
+  const todays = sortEntries(entries.filter(e=>e.date===dk));
   const last = todays[todays.length-1];
-  draft = {mood:5, weather: last ? last.weather : null, place:null, tags: last ? [...(last.tags||[])] : [], memo:'', time:nowTime()};
-  step = 1; justSaved = null;
+  draft = {mood:5, weather: last ? last.weather : null, place:null, tags: last ? [...(last.tags||[])] : [], memo:'', time:'', date: dk===todayKey() ? null : dk};
+  // その日 2回目いこうは 「ばしょ」から はじめる（てんき・じょうけんは そのまま）
+  step = last ? 3 : 1; justSaved = null;
 }
 
 /* ---------- 画面: つける ---------- */
@@ -215,7 +229,8 @@ function chainHtml(list, withTime){
 
 function renderWrite(){
   if(justSaved) return renderDone();
-  const todays = sortEntries(entries.filter(e=>e.date===todayKey()));
+  const dk = draft.date || todayKey();
+  const todays = sortEntries(entries.filter(e=>e.date===dk));
   let body = '';
   if(step===4){
     body = `<h2>${pOf(draft.place).e} ${pOf(draft.place).at} きもちは？</h2>
@@ -226,7 +241,8 @@ function renderWrite(){
     </div>
     <input type="range" id="mood" min="0" max="10" step="1" value="${draft.mood}" aria-label="きもちの てんすう">
     <div class="ends"><span>0 つらい</span><span>10 さいこう</span></div></div>
-    <p class="sub">0から10の どこかな？ すきに えらんでね<br>🕒 きろくした じかんは じどうで はいるよ</p>`;
+    ${draft.date?`<div class="card" style="padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:12px"><label for="tm" style="font-weight:700">🕒 じこく</label><input type="time" id="tm" value="${draft.time||''}" style="font:inherit;font-size:22px;font-weight:700;color:var(--ink);border:3px solid var(--soft);border-radius:14px;padding:6px 10px;background:#fff"></div>`:''}
+    <p class="sub">0から10の どこかな？ すきに えらんでね<br>${draft.date?'🕒 じこくは わかれば いれてね':'🕒 きろくした じかんは じどうで はいるよ'}</p>`;
   } else if(step===3){
     body = `<h2>いま どこまで いけた？</h2>
     <div class="grid">${PLACES.map(p=>`<button class="big ${draft.place===p.k?'sel':''}" data-place="${p.k}"><span class="e">${p.e}</span>${p.n}</button>`).join('')}</div>
@@ -244,24 +260,25 @@ function renderWrite(){
   }
   const nav = step===1 ? `<div class="nav"><button class="btn" id="next">${draft.weather?'つぎへ':'とばす'}</button></div>` :
     step===2 ? `<div class="nav"><button class="btn ghost" id="back">もどる</button><button class="btn" id="next">つぎへ</button></div>` :
-    step===3 ? `<div class="nav"><button class="btn ghost" id="back">もどる</button></div>` :
+    step===3 ? `<div class="nav"><button class="btn ghost" id="back">もどる</button></div><div class="nav"><button class="btn small ghost" id="chgw" style="flex:1">${wOf(draft.weather).e||''} てんき・じょうけんを かえる</button></div>` :
     `<div class="nav"><button class="btn ghost" id="back">もどる</button><button class="btn mint" id="save">きろくする ⭐</button></div>`;
-  const todayBox = (todays.length && step===1) ? `<div class="card" style="padding:12px 14px"><div class="group" style="margin:0 0 6px">きょうの ここまで</div>${chainHtml(todays,true)}</div>` : '';
+  const todayBox = (todays.length && (step===1||step===3)) ? `<div class="card" style="padding:12px 14px"><div class="group" style="margin:0 0 6px">${draft.date?dateLabel(dk)+'の':'きょうの'} ここまで</div>${chainHtml(todays,true)}</div>` : '';
+  const banner = draft.date ? `<div class="note" style="margin:8px 0">📅 ${dateLabel(draft.date)}（${WD[wdOf(draft.date)]}）の きろくを つけています <button class="x" id="toToday" style="margin-left:6px;padding:0 10px">きょうに もどる</button></div>` : '';
   return `<h1>🌤️ きもちの おそら</h1>
     <p class="sub">てんき → じょうけん → ばしょ → きもち の じゅんに えらんでね</p>
-    ${todayBox}${dotsHtml()}${body}${nav}`;
+    ${banner}${todayBox}${dotsHtml()}${body}${nav}`;
 }
 function dotsHtml(){ return `<div class="dots" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=step?'on':''}"></i>`).join('')}</div>`; }
 function wBtn(w){ return `<button class="big ${draft.weather===w.k?'sel':''}" data-weather="${w.k}"><span class="e">${w.e}</span>${w.n}</button>`; }
 
 function renderDone(){
   const e = justSaved;
-  const todays = sortEntries(entries.filter(x=>x.date===todayKey()));
+  const todays = sortEntries(entries.filter(x=>x.date===e.date));
   const msg = e.mood<=3 ? 'おしえてくれて ありがとう。<br>いま よく がんばってるね。' : e.mood<=6 ? 'きろく できたよ！<br>えらいね。' : 'きろく できたよ！<br>いい かんじ だね。';
   return `<h1>🌤️ きもちの おそら</h1>
     <div class="card done pop">
       <div style="display:flex;justify-content:center">${face(e.mood,140)}</div>
-      <div class="stamp">🕒 ${e.time} ／ ${pOf(e.place).e} ${wOf(e.weather).e} ${e.mood}てん</div>
+      <div class="stamp">${e.date!==todayKey()?'📅 '+dateLabel(e.date)+' ':''}${e.time?'🕒 '+e.time+' ／ ':''} ${pOf(e.place).e} ${wOf(e.weather).e} ${e.mood}てん</div>
       <p>${msg}</p>
       ${todays.length>1?`<div style="display:flex;justify-content:center;margin-top:8px">${chainHtml(todays,false)}</div>`:''}
     </div>
@@ -270,35 +287,59 @@ function renderDone(){
 
 /* ---------- 画面: みる ---------- */
 function renderLook(){
-  if(!entries.length) return `<h1>🌈 きもちの きろく</h1><div class="card"><p class="sub">まだ なにも ないよ。<br>「つける」から はじめてみよう</p></div>`;
   const days = byDate(entries);
+  const tk = todayKey();
+  const first = new Date(calY,calM,1).getDay();
+  const dim = new Date(calY,calM+1,0).getDate();
+  let cells='';
+  for(let i=0;i<first;i++) cells+='<div class="cd empty"></div>';
+  for(let d=1; d<=dim; d++){
+    const key = calY+'-'+pad2(calM+1)+'-'+pad2(d);
+    const es = days[key];
+    const cls = 'cd'+(key===tk?' today':'')+(key===selDate?' sel':'');
+    if(es){
+      const m = avg(es.map(e=>e.mood));
+      const reach = es.some(e=>e.place==='class');
+      cells += `<button class="${cls}" data-day="${key}" style="background:${moodColor(m)}" aria-label="${calM+1}月${d}日 ${m.toFixed(1)}てん"><span class="dn">${d}</span>${face(Math.round(m),30)}<span class="mn">${m.toFixed(1)}${reach?'🏫':''}</span></button>`;
+    } else cells += `<button class="${cls}" data-day="${key}" aria-label="${calM+1}月${d}日"><span class="dn">${d}</span></button>`;
+  }
+  const cal = `<div class="calhead"><button class="x" data-cal="-1" style="min-width:52px;min-height:44px" aria-label="まえの つき">◀</button><b>${calY}年 ${calM+1}月</b><button class="x" data-cal="1" style="min-width:52px;min-height:44px" aria-label="つぎの つき">▶</button></div>
+    <div class="calgrid">${WD.map(w=>`<div class="cw">${w}</div>`).join('')}${cells}</div>
+    <p class="sub" style="margin-top:8px">いろ・かおは その日の へいきん ／ 🏫 は きょうしつに はいれた日</p>`;
+
+  const es = days[selDate] || [];
+  const canAdd = selDate <= tk;
+  const detail = `<div class="card"><div class="dayHead" style="font-size:17px">${dateLabel(selDate)}（${WD[wdOf(selDate)]}）${selDate===tk?' きょう':''}</div>
+    ${es.length ? chainHtml(es,true) + es.map(e=>`<div class="row"><div class="tm">${e.time||'--:--'}</div><div class="t">${pOf(e.place).e} ${pOf(e.place).n} ${e.mood}てん ${wOf(e.weather).e}${e.tags&&e.tags.length?`<br><span style="opacity:.75;font-size:12px">${e.tags.map(esc).join('・')}</span>`:''}${e.memo?`<br><span style="opacity:.8">${esc(e.memo)}</span>`:''}</div><button class="x ${delArmed===e.id?'arm':''}" data-del="${e.id}" aria-label="けす">${delArmed===e.id?'けす？':'✕'}</button></div>`).join('') : '<p class="sub">この日の きろくは まだ ないよ</p>'}
+    ${canAdd?`<div class="nav"><button class="btn small mint" data-addday="${selDate}">✏️ この日に つける</button></div>`:''}</div>`;
+
+  // ばしょごとの グラフ（きろくの ある さいきん14日）
+  let chartCard = '';
   const dates = Object.keys(days).sort();
-  const recent = dates.slice(-14);
-  const W=320,H=150,pad=22;
-  const xs = i => recent.length===1 ? W/2 : pad + i*(W-2*pad)/(recent.length-1);
-  const ys = v => H-pad-(v/10)*(H-2*pad-10);
-  let lines='';
-  PLACES.forEach(p=>{
-    const pts = recent.map((d,i)=>{ const l=days[d].filter(e=>e.place===p.k); return l.length ? {x:xs(i), y:ys(avg(l.map(e=>e.mood)))} : null; }).filter(Boolean);
-    if(pts.length>1) lines += `<polyline points="${pts.map(q=>q.x+','+q.y).join(' ')}" fill="none" stroke="${p.c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>`;
-    lines += pts.map(q=>`<circle cx="${q.x}" cy="${q.y}" r="5.5" fill="#fff" stroke="${p.c}" stroke-width="3.5"/>`).join('');
-  });
-  const chart = `<svg viewBox="0 0 ${W} ${H+14}" width="100%" role="img" aria-label="ばしょごとの きもちの グラフ">
-    ${[0,5,10].map(v=>`<line x1="${pad}" x2="${W-pad}" y1="${ys(v)}" y2="${ys(v)}" stroke="#E6DDF0" stroke-dasharray="4 4"/><text x="2" y="${ys(v)+4}" font-size="11" fill="#4A3B63">${v}</text>`).join('')}
-    ${lines}
-    <text x="${xs(0)}" y="${H+8}" font-size="10" text-anchor="middle" fill="#4A3B63">${dateLabel(recent[0])}</text>
-    ${recent.length>1?`<text x="${xs(recent.length-1)}" y="${H+8}" font-size="10" text-anchor="middle" fill="#4A3B63">${dateLabel(recent[recent.length-1])}</text>`:''}
-  </svg>
-  <div class="legend">${PLACES.map(p=>`<span><i style="background:${p.c}"></i>${p.e}${p.n}</span>`).join('')}</div>`;
-  const list = dates.slice().reverse().slice(0,21).map(d=>{
-    const es = days[d];
-    return `<div class="day"><div class="dayHead">${dateLabel(d)}（${WD[wdOf(d)]}）</div>${chainHtml(es,true)}
-      ${es.map(e=>`<div class="row"><div class="tm">${e.time||''}</div><div class="t">${pOf(e.place).e} ${e.mood}てん ${wOf(e.weather).e}${e.memo?`<br><span style="opacity:.8">${esc(e.memo)}</span>`:''}</div><button class="x ${delArmed===e.id?'arm':''}" data-del="${e.id}" aria-label="けす">${delArmed===e.id?'けす？':'✕'}</button></div>`).join('')}
-    </div>`;
-  }).join('');
-  return `<h1>🌈 きもちの きろく</h1>
-    <div class="card"><div class="group" style="margin-top:0">ばしょごとの きもち（さいきん）</div>${chart}</div>
-    <div class="card">${list}</div>`;
+  if(dates.length){
+    const recent = dates.slice(-14);
+    const W=320,H=150,pad=22;
+    const xs = i => recent.length===1 ? W/2 : pad + i*(W-2*pad)/(recent.length-1);
+    const ys = v => H-pad-(v/10)*(H-2*pad-10);
+    let lines='';
+    PLACES.forEach(p=>{
+      const pts = recent.map((d,i)=>{ const l=days[d].filter(e=>e.place===p.k); return l.length ? {x:xs(i), y:ys(avg(l.map(e=>e.mood)))} : null; }).filter(Boolean);
+      if(pts.length>1) lines += `<polyline points="${pts.map(q=>q.x+','+q.y).join(' ')}" fill="none" stroke="${p.c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>`;
+      lines += pts.map(q=>`<circle cx="${q.x}" cy="${q.y}" r="5.5" fill="#fff" stroke="${p.c}" stroke-width="3.5"/>`).join('');
+    });
+    const chart = `<svg viewBox="0 0 ${W} ${H+14}" width="100%" role="img" aria-label="ばしょごとの きもちの グラフ">
+      ${[0,5,10].map(v=>`<line x1="${pad}" x2="${W-pad}" y1="${ys(v)}" y2="${ys(v)}" stroke="#E6DDF0" stroke-dasharray="4 4"/><text x="2" y="${ys(v)+4}" font-size="11" fill="#4A3B63">${v}</text>`).join('')}
+      ${lines}
+      <text x="${xs(0)}" y="${H+8}" font-size="10" text-anchor="middle" fill="#4A3B63">${dateLabel(recent[0])}</text>
+      ${recent.length>1?`<text x="${xs(recent.length-1)}" y="${H+8}" font-size="10" text-anchor="middle" fill="#4A3B63">${dateLabel(recent[recent.length-1])}</text>`:''}
+    </svg>
+    <div class="legend">${PLACES.map(p=>`<span><i style="background:${p.c}"></i>${p.e}${p.n}</span>`).join('')}</div>`;
+    chartCard = `<div class="card"><div class="group" style="margin-top:0">ばしょごとの きもち（さいきん）</div>${chart}</div>`;
+  }
+  return `<h1>🌈 きもちの カレンダー</h1>
+    <div class="card">${cal}</div>
+    ${detail}
+    ${chartCard}`;
 }
 
 /* ---------- 画面: おとな ---------- */
@@ -388,7 +429,7 @@ function render(){
 }
 
 function bind(){
-  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{ tab=b.dataset.tab; resetArmed=false; delArmed=null; if(tab==='write' && !justSaved) startDraft(); render(); window.scrollTo(0,0); });
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{ const was=tab; tab=b.dataset.tab; resetArmed=false; delArmed=null; if(tab==='write' && (was!=='write' || justSaved)) startDraft(); render(); window.scrollTo(0,0); });
   const mood = document.getElementById('mood');
   if(mood){ mood.oninput = ()=>{ draft.mood=+mood.value;
     document.getElementById('faceBox').innerHTML=face(draft.mood);
@@ -402,11 +443,18 @@ function bind(){
   const back=document.getElementById('back'); if(back) back.onclick=()=>{ const m=document.getElementById('memo'); if(m) draft.memo=m.value; step--; render(); };
   const save=document.getElementById('save'); if(save) save.onclick=async()=>{
     const m=document.getElementById('memo'); if(m) draft.memo=m.value;
-    const e={id:String(Date.now()), date:todayKey(), time:nowTime(), mood:draft.mood, weather:draft.weather, place:draft.place, tags:draft.tags, memo:draft.memo.trim()};
+    const dk=draft.date||todayKey();
+    const e={id:String(Date.now()), date:dk, time:(dk===todayKey()?nowTime():(draft.time||'')), mood:draft.mood, weather:draft.weather, place:draft.place, tags:draft.tags, memo:draft.memo.trim()};
     entries.push(e); await store.save(entries); justSaved=e; render(); window.scrollTo(0,0);
   };
-  const ag=document.getElementById('again'); if(ag) ag.onclick=()=>{ startDraft(); render(); window.scrollTo(0,0); };
-  const gl=document.getElementById('goLook'); if(gl) gl.onclick=()=>{ tab='look'; justSaved=null; startDraft(); render(); window.scrollTo(0,0); };
+  const ag=document.getElementById('again'); if(ag) ag.onclick=()=>{ const d=justSaved.date; startDraft(d===todayKey()?undefined:d); render(); window.scrollTo(0,0); };
+  const gl=document.getElementById('goLook'); if(gl) gl.onclick=()=>{ const d=justSaved.date; selDate=d; const [y,m]=d.split('-'); calY=+y; calM=+m-1; tab='look'; justSaved=null; startDraft(); render(); window.scrollTo(0,0); };
+  document.querySelectorAll('[data-cal]').forEach(b=>b.onclick=()=>{ calM+=+b.dataset.cal; if(calM<0){calM=11;calY--;} if(calM>11){calM=0;calY++;} delArmed=null; render(); });
+  document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{ selDate=b.dataset.day; delArmed=null; render(); const el=document.querySelector('.dayHead'); if(el) el.scrollIntoView({block:'nearest'}); });
+  document.querySelectorAll('[data-addday]').forEach(b=>b.onclick=()=>{ const d=b.dataset.addday; tab='write'; startDraft(d===todayKey()?undefined:d); render(); window.scrollTo(0,0); });
+  const cw=document.getElementById('chgw'); if(cw) cw.onclick=()=>{ step=1; render(); window.scrollTo(0,0); };
+  const tt=document.getElementById('toToday'); if(tt) tt.onclick=()=>{ startDraft(); render(); };
+  const tm=document.getElementById('tm'); if(tm) tm.oninput=()=>{ draft.time=tm.value; };
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.del;
     if(delArmed!==id){ delArmed=id; render(); } else { entries=entries.filter(e=>e.id!==id); delArmed=null; await store.save(entries); render(); } });
   const cp=document.getElementById('copy'); if(cp) cp.onclick=()=>{
