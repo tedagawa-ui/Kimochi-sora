@@ -19,7 +19,7 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;-webkit-text-size-adjust:100%}
   body{font-family:"Hiragino Maru Gothic ProN","M PLUS Rounded 1c","Yu Gothic","Meiryo",sans-serif;color:var(--ink);background:var(--sky);min-height:100vh}
-  #app{max-width:520px;margin:0 auto;padding:16px 16px 96px;min-height:100vh;background:linear-gradient(180deg,var(--sky) 0%,#EAF7FD 60%,#FFF6DC 100%)}
+  #app{max-width:520px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 16px calc(150px + env(safe-area-inset-bottom));min-height:100vh;min-height:100dvh;background:linear-gradient(180deg,var(--sky) 0%,#EAF7FD 60%,#FFF6DC 100%)}
   h1{font-size:26px;margin:8px 0 2px;letter-spacing:.04em}
   h2{font-size:22px;margin:6px 0 14px;text-align:center}
   p{line-height:1.7;margin:6px 0}
@@ -57,8 +57,8 @@
   .btn.ghost{background:#fff;color:var(--ink);box-shadow:0 5px 0 rgba(74,59,99,.16);flex:.6}
   .btn.mint{background:#55C79B;box-shadow:0 5px 0 #3AA67D}
   .btn.small{font-size:15px;min-height:46px;border-radius:18px}
-  .tabs{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:blur(6px);box-shadow:0 -3px 0 rgba(74,59,99,.08)}
-  .tabs button{font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:transparent;border:none;border-radius:18px;padding:8px 14px;min-width:96px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:flex;justify-content:center;gap:6px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:blur(6px);box-shadow:0 -3px 0 rgba(74,59,99,.08)}
+  .tabs button{font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:transparent;border:none;border-radius:18px;padding:6px 8px;flex:1;max-width:150px;min-width:0;min-height:56px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1.2}
   .tabs button .e{font-size:24px}
   .tabs button.on{background:var(--sun)}
   .day{padding:10px 0;border-bottom:2px dashed #EEE6F6}
@@ -266,6 +266,7 @@ function renderWrite(){
   const banner = draft.date ? `<div class="note" style="margin:8px 0">📅 ${dateLabel(draft.date)}（${WD[wdOf(draft.date)]}）の きろくを つけています <button class="x" id="toToday" style="margin-left:6px;padding:0 10px">きょうに もどる</button></div>` : '';
   return `<h1>🌤️ きもちの おそら</h1>
     <p class="sub">てんき → じょうけん → ばしょ → きもち の じゅんに えらんでね</p>
+    <div class="card" style="padding:8px 14px;display:flex;align-items:center;justify-content:center;gap:10px"><label for="dpick" style="font-weight:700">📅 ひづけ</label><input type="date" id="dpick" value="${dk}" max="${todayKey()}" style="font:inherit;font-size:18px;font-weight:700;color:var(--ink);border:3px solid var(--soft);border-radius:14px;padding:6px 10px;background:#fff;min-height:44px"></div>
     ${banner}${todayBox}${dotsHtml()}${body}${nav}`;
 }
 function dotsHtml(){ return `<div class="dots" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=step?'on':''}"></i>`).join('')}</div>`; }
@@ -413,6 +414,7 @@ function renderAdult(){
     <div class="nav"><button class="btn small mint" id="backup">💾 バックアップを ほぞん</button><button class="btn small ghost" id="restore">📂 ふっかつ</button></div>
     <input type="file" id="restoreFile" accept=".json,application/json" hidden>
     <div id="copyMsg" class="sub"></div>
+    <div class="nav"><button class="btn small ghost" id="refresh">🔄 さいしんばんに こうしん（きろくは きえません）</button></div>
     <div class="nav"><button class="btn small ghost" id="reset" style="${resetArmed?'background:#FFE0E0':''}">${resetArmed?'ほんとうに ぜんぶ けす（もういちど タップ）':'きろくを ぜんぶ けす'}</button></div>`;
 }
 
@@ -454,6 +456,7 @@ function bind(){
   document.querySelectorAll('[data-addday]').forEach(b=>b.onclick=()=>{ const d=b.dataset.addday; tab='write'; startDraft(d===todayKey()?undefined:d); render(); window.scrollTo(0,0); });
   const cw=document.getElementById('chgw'); if(cw) cw.onclick=()=>{ step=1; render(); window.scrollTo(0,0); };
   const tt=document.getElementById('toToday'); if(tt) tt.onclick=()=>{ startDraft(); render(); };
+  const dp=document.getElementById('dpick'); if(dp) dp.onchange=()=>{ const v=dp.value; if(!v) return; startDraft(v===todayKey()?undefined:v); render(); window.scrollTo(0,0); };
   const tm=document.getElementById('tm'); if(tm) tm.oninput=()=>{ draft.time=tm.value; };
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.del;
     if(delArmed!==id){ delArmed=id; render(); } else { entries=entries.filter(e=>e.id!==id); delArmed=null; await store.save(entries); render(); } });
@@ -482,6 +485,7 @@ function bind(){
       const m2=document.getElementById('copyMsg'); if(m2) m2.textContent=n+'けん ふっかつしました';
     }catch(err){ msg.textContent='ファイルを よみこめませんでした'; }
   }; }
+  const rf2=document.getElementById('refresh'); if(rf2) rf2.onclick=()=>{ window.location.href = window.location.pathname + '?v=' + Date.now(); };
   const rs=document.getElementById('reset'); if(rs) rs.onclick=async()=>{ if(!resetArmed){ resetArmed=true; render(); } else { entries=[]; await store.save(entries); resetArmed=false; startDraft(); render(); } };
 }
 
