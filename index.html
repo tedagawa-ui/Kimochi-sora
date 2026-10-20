@@ -314,6 +314,10 @@ function renderLook(){
     ${es.length ? chainHtml(es,true) + es.map(e=>`<div class="row"><div class="tm">${e.time||'--:--'}</div><div class="t">${pOf(e.place).e} ${pOf(e.place).n} ${e.mood}てん ${wOf(e.weather).e}${e.tags&&e.tags.length?`<br><span style="opacity:.75;font-size:12px">${e.tags.map(esc).join('・')}</span>`:''}${e.memo?`<br><span style="opacity:.8">${esc(e.memo)}</span>`:''}</div><button class="x ${delArmed===e.id?'arm':''}" data-del="${e.id}" aria-label="けす">${delArmed===e.id?'けす？':'✕'}</button></div>`).join('') : '<p class="sub">この日の きろくは まだ ないよ</p>'}
     ${canAdd?`<div class="nav"><button class="btn small mint" data-addday="${selDate}">✏️ この日に つける</button></div>`:''}</div>`;
 
+  const ym = calY+'-'+pad2(calM+1)+'-';
+  const mm = sortEntries(entries).filter(e=>e.memo && e.date.startsWith(ym)).reverse();
+  const memoCard = `<div class="card"><div class="group" style="margin-top:0">💬 ${calM+1}月の ひとこと</div>${mm.length ? mm.map(e=>`<div class="row" data-day="${e.date}" style="cursor:pointer"><div class="tm" style="width:62px">${dateLabel(e.date)}（${WD[wdOf(e.date)]}）<br><span style="font-weight:400;font-size:11px">${e.time||''}</span></div><div class="t">${pOf(e.place).e} ${e.mood}てん<br>${esc(e.memo)}</div></div>`).join('') : '<p class="sub">この月の ひとことは まだ ないよ</p>'}</div>`;
+
   // ばしょごとの グラフ（きろくの ある さいきん14日）
   let chartCard = '';
   const dates = Object.keys(days).sort();
@@ -340,6 +344,7 @@ function renderLook(){
   return `<h1>🌈 きもちの カレンダー</h1>
     <div class="card">${cal}</div>
     ${detail}
+    ${memoCard}
     ${chartCard}`;
 }
 
@@ -392,7 +397,7 @@ function renderAdult(){
   const wRows = WEATHER.map(w=>[w, entries.filter(e=>e.weather===w.k)]).filter(x=>x[1].length).map(([w,l])=>statRow(w.e+' '+w.n,l)).join('');
   const allTags = TAGS.flatMap(g=>g.items);
   const tRows = allTags.map(t=>[t, entries.filter(e=>e.tags.includes(t))]).filter(x=>x[1].length>=2).map(([t,l])=>statRow(t,l)).join('');
-  const notes = sortEntries(entries).filter(e=>e.memo).reverse().slice(0,8);
+  const notes = sortEntries(entries).filter(e=>e.memo).reverse().slice(0,30);
 
   const stText = storageMode==='local' ? '💾 きろくは この たんまつの ブラウザの なかに ほぞんされています' : storageMode==='claude' ? '💾 いまは Claude の なかで ためしています（ダウンロードして つかうと たんまつに ほぞんされます）' : '⚠️ この ブラウザでは ほぞん できません。とじると きろくが きえます';
   return `<h1>🔑 おとなの ページ</h1>
@@ -407,7 +412,7 @@ function renderAdult(){
       <div class="group">てんき ごとの へいきん</div>${wRows}
       ${tRows?`<div class="group">じょうけん ごとの へいきん</div>${tRows}`:''}
     </div>
-    ${notes.length?`<div class="card"><div class="group" style="margin-top:0">ひとこと</div>${notes.map(e=>`<div class="row"><div class="tm" style="width:56px">${dateLabel(e.date)}</div><div class="t">${pOf(e.place).e} ${esc(e.memo)}</div></div>`).join('')}</div>`:''}
+    ${notes.length?`<div class="card"><div class="group" style="margin-top:0">💬 ひとこと（あたらしい じゅん）</div>${notes.map(e=>`<div class="row"><div class="tm" style="width:62px">${dateLabel(e.date)}（${WD[wdOf(e.date)]}）<br><span style="font-weight:400;font-size:11px">${e.time||''}</span></div><div class="t">${pOf(e.place).e} ${pOf(e.place).n} ${e.mood}てん<br>${esc(e.memo)}</div></div>`).join('')}</div>`:`<div class="card"><div class="group" style="margin-top:0">💬 ひとこと</div><p class="sub">ひとことが はいると ここに ならびます</p></div>`}
     <div class="note">📝 みかた：きろくが 5回 みまんの マスは、たまたまの ことも おおいです。曜日ごとの ちがいは、数週間 つづけると みえやすく なります。<br>
     おこさんに 「かいて」と せかさず、かけない ひが あっても だいじょうぶです。きろくが つづくなら、がっこうの せんせい・スクールカウンセラーへ みせて そうだん するのも ひとつです。</div>
     <div class="nav"><button class="btn small mint" id="copy">📋 テキストで コピー</button></div>
