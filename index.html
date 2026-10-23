@@ -242,6 +242,8 @@ function renderWrite(){
     <input type="range" id="mood" min="0" max="10" step="1" value="${draft.mood}" aria-label="きもちの てんすう">
     <div class="ends"><span>0 つらい</span><span>10 さいこう</span></div></div>
     ${draft.date?`<div class="card" style="padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:12px"><label for="tm" style="font-weight:700">🕒 じこく</label><input type="time" id="tm" value="${draft.time||''}" style="font:inherit;font-size:22px;font-weight:700;color:var(--ink);border:3px solid var(--soft);border-radius:14px;padding:6px 10px;background:#fff"></div>`:''}
+    <div class="card" style="padding:14px 16px"><div class="group" style="margin:0 0 6px">💬 ひとこと（かかなくても いいよ）</div>
+      <textarea id="memo" maxlength="120" placeholder="おもったこと、おうちのひとに つたえたいこと">${esc(draft.memo)}</textarea></div>
     <p class="sub">0から10の どこかな？ すきに えらんでね<br>${draft.date?'🕒 じこくは わかれば いれてね':'🕒 きろくした じかんは じどうで はいるよ'}</p>`;
   } else if(step===3){
     body = `<h2>いま どこまで いけた？</h2>
@@ -255,8 +257,7 @@ function renderWrite(){
   } else {
     body = `<h2>いまの ようす</h2>
     <div class="card">${TAGS.map(g=>`<div class="group">${g.g}</div><div class="chips">${g.items.map(t=>`<button class="chip ${draft.tags.includes(t)?'sel':''}" data-tag="${esc(t)}">${t}</button>`).join('')}</div>`).join('')}
-    <div class="group">ひとこと（かかなくても いいよ）</div>
-    <textarea id="memo" maxlength="120" placeholder="おもったこと、おうちのひとに つたえたいこと">${esc(draft.memo)}</textarea></div>`;
+    </div>`;
   }
   const nav = step===1 ? `<div class="nav"><button class="btn" id="next">${draft.weather?'つぎへ':'とばす'}</button></div>` :
     step===2 ? `<div class="nav"><button class="btn ghost" id="back">もどる</button><button class="btn" id="next">つぎへ</button></div>` :
