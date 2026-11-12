@@ -112,42 +112,52 @@
 <div id="app"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <!-- あんちゃん: あんこになりたい、いちばん上のおにいちゃん -->
-    <symbol id="c-an" viewBox="0 0 100 100">
-      <ellipse cx="50" cy="56" rx="35" ry="28" transform="rotate(-14 50 56)" fill="#8c3a36"/>
-      <ellipse cx="38" cy="42" rx="11" ry="5" transform="rotate(-24 38 42)" fill="#b9645d" opacity="0.8"/>
-      <circle cx="40" cy="55" r="4" fill="#2a1414"/><circle cx="61" cy="52" r="4" fill="#2a1414"/>
-      <circle cx="41.4" cy="53.6" r="1.3" fill="#fff"/><circle cx="62.4" cy="50.6" r="1.3" fill="#fff"/>
-      <path d="M34 47 Q40 43 46 46 M56 43 Q62 41 67 45" stroke="#2a1414" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-      <path d="M44 65 Q51 71 58 63" stroke="#2a1414" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <circle cx="33" cy="63" r="5" fill="#f2a29c" opacity="0.7"/><circle cx="68" cy="59" r="5" fill="#f2a29c" opacity="0.7"/>
-      <path d="M82 20 l2.6 6 6 2.6 -6 2.6 -2.6 6 -2.6 -6 -6 -2.6 6 -2.6z" fill="#ffd45e"/>
-    </symbol>
-    <!-- ずんちゃん: まめのなかまになりたい、まんなか -->
-    <symbol id="c-zun" viewBox="0 0 100 100">
-      <ellipse cx="50" cy="58" rx="34" ry="28" transform="rotate(10 50 58)" fill="#a24d3f"/>
-      <ellipse cx="62" cy="44" rx="11" ry="5" transform="rotate(20 62 44)" fill="#c9786a" opacity="0.8"/>
-      <path d="M50 31 Q42 12 26 16 Q31 32 50 31Z" fill="#7cb948"/>
-      <path d="M50 31 Q60 10 76 15 Q70 33 50 31Z" fill="#96cd5d"/>
-      <path d="M50 31 L50 24" stroke="#5c8f33" stroke-width="2.4" stroke-linecap="round"/>
-      <circle cx="39" cy="55" r="4.2" fill="#2a1414"/><circle cx="60" cy="58" r="4.2" fill="#2a1414"/>
-      <circle cx="40.4" cy="53.6" r="1.4" fill="#fff"/><circle cx="61.4" cy="56.6" r="1.4" fill="#fff"/>
-      <path d="M42 66 Q50 77 58 68 Z" fill="#5a1f1f"/>
-      <circle cx="31" cy="64" r="5" fill="#f2a29c" opacity="0.7"/><circle cx="68" cy="67" r="5" fill="#f2a29c" opacity="0.7"/>
-    </symbol>
-    <!-- きんちゃん: きにしない、のんびりすえっこ -->
-    <symbol id="c-kin" viewBox="0 0 100 100">
-      <ellipse cx="50" cy="58" rx="33" ry="27" transform="rotate(-6 50 58)" fill="#d46d3c"/>
-      <ellipse cx="38" cy="45" rx="10" ry="4.5" transform="rotate(-18 38 45)" fill="#eb9568" opacity="0.85"/>
-      <path d="M33 56 Q39 49 45 56 M55 55 Q61 48 67 55" stroke="#2a1414" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-      <path d="M40 65 Q50 76 61 64" stroke="#2a1414" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-      <circle cx="31" cy="64" r="5.4" fill="#f6b0a5" opacity="0.8"/><circle cx="70" cy="63" r="5.4" fill="#f6b0a5" opacity="0.8"/>
-      <g transform="translate(74 30)">
-        <circle cx="0" cy="-6" r="5" fill="#ffb3c7"/><circle cx="6" cy="0" r="5" fill="#ffb3c7"/>
-        <circle cx="0" cy="6" r="5" fill="#ffb3c7"/><circle cx="-6" cy="0" r="5" fill="#ffb3c7"/>
-        <circle cx="0" cy="0" r="3.6" fill="#ffd45e"/>
-      </g>
-    </symbol>
+    <pattern id="grain" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="1" cy="1.2" r=".55" fill="#000" opacity=".1"/><circle cx="4" cy="3.8" r=".5" fill="#000" opacity=".08"/><circle cx="2.6" cy="5.2" r=".4" fill="#fff" opacity=".1"/></pattern>
+    <ellipse id="rb" cx="50" cy="56" rx="31" ry="38"/>
+    <clipPath id="rbc"><use href="#rb"/></clipPath>
+    <clipPath id="rcap"><path d="M0 42 L19 40 Q50 30 81 40 L100 42 L100 0 L0 0Z"/></clipPath>
+    <g id="sg"><path d="M-5.5 0 A5.5 5.5 0 0 1 5.5 0Z" fill="#F7F1E6"/><g fill="none" stroke="#4F7FC0" stroke-width=".8" stroke-linecap="round"><path d="M-5.5 0 A5.5 5.5 0 0 1 5.5 0"/><path d="M-3.7 0 A3.7 3.7 0 0 1 3.7 0"/><path d="M-1.9 0 A1.9 1.9 0 0 1 1.9 0"/></g></g>
+    <g id="capart"><g clip-path="url(#rbc)"><g clip-path="url(#rcap)"><rect x="0" y="0" width="100" height="50" fill="#F7F1E6"/><use href="#sg" transform="translate(14 14) scale(.9)"/><use href="#sg" transform="translate(24 14) scale(.9)"/><use href="#sg" transform="translate(34 14) scale(.9)"/><use href="#sg" transform="translate(44 14) scale(.9)"/><use href="#sg" transform="translate(54 14) scale(.9)"/><use href="#sg" transform="translate(64 14) scale(.9)"/><use href="#sg" transform="translate(74 14) scale(.9)"/><use href="#sg" transform="translate(84 14) scale(.9)"/><use href="#sg" transform="translate(19 16.6) scale(.9)"/><use href="#sg" transform="translate(29 16.6) scale(.9)"/><use href="#sg" transform="translate(39 16.6) scale(.9)"/><use href="#sg" transform="translate(49 16.6) scale(.9)"/><use href="#sg" transform="translate(59 16.6) scale(.9)"/><use href="#sg" transform="translate(69 16.6) scale(.9)"/><use href="#sg" transform="translate(79 16.6) scale(.9)"/><use href="#sg" transform="translate(89 16.6) scale(.9)"/><use href="#sg" transform="translate(14 19.2) scale(.9)"/><use href="#sg" transform="translate(24 19.2) scale(.9)"/><use href="#sg" transform="translate(34 19.2) scale(.9)"/><use href="#sg" transform="translate(44 19.2) scale(.9)"/><use href="#sg" transform="translate(54 19.2) scale(.9)"/><use href="#sg" transform="translate(64 19.2) scale(.9)"/><use href="#sg" transform="translate(74 19.2) scale(.9)"/><use href="#sg" transform="translate(84 19.2) scale(.9)"/><use href="#sg" transform="translate(19 21.8) scale(.9)"/><use href="#sg" transform="translate(29 21.8) scale(.9)"/><use href="#sg" transform="translate(39 21.8) scale(.9)"/><use href="#sg" transform="translate(49 21.8) scale(.9)"/><use href="#sg" transform="translate(59 21.8) scale(.9)"/><use href="#sg" transform="translate(69 21.8) scale(.9)"/><use href="#sg" transform="translate(79 21.8) scale(.9)"/><use href="#sg" transform="translate(89 21.8) scale(.9)"/><use href="#sg" transform="translate(14 24.4) scale(.9)"/><use href="#sg" transform="translate(24 24.4) scale(.9)"/><use href="#sg" transform="translate(34 24.4) scale(.9)"/><use href="#sg" transform="translate(44 24.4) scale(.9)"/><use href="#sg" transform="translate(54 24.4) scale(.9)"/><use href="#sg" transform="translate(64 24.4) scale(.9)"/><use href="#sg" transform="translate(74 24.4) scale(.9)"/><use href="#sg" transform="translate(84 24.4) scale(.9)"/><use href="#sg" transform="translate(19 27) scale(.9)"/><use href="#sg" transform="translate(29 27) scale(.9)"/><use href="#sg" transform="translate(39 27) scale(.9)"/><use href="#sg" transform="translate(49 27) scale(.9)"/><use href="#sg" transform="translate(59 27) scale(.9)"/><use href="#sg" transform="translate(69 27) scale(.9)"/><use href="#sg" transform="translate(79 27) scale(.9)"/><use href="#sg" transform="translate(89 27) scale(.9)"/><use href="#sg" transform="translate(14 29.6) scale(.9)"/><use href="#sg" transform="translate(24 29.6) scale(.9)"/><use href="#sg" transform="translate(34 29.6) scale(.9)"/><use href="#sg" transform="translate(44 29.6) scale(.9)"/><use href="#sg" transform="translate(54 29.6) scale(.9)"/><use href="#sg" transform="translate(64 29.6) scale(.9)"/><use href="#sg" transform="translate(74 29.6) scale(.9)"/><use href="#sg" transform="translate(84 29.6) scale(.9)"/><use href="#sg" transform="translate(19 32.2) scale(.9)"/><use href="#sg" transform="translate(29 32.2) scale(.9)"/><use href="#sg" transform="translate(39 32.2) scale(.9)"/><use href="#sg" transform="translate(49 32.2) scale(.9)"/><use href="#sg" transform="translate(59 32.2) scale(.9)"/><use href="#sg" transform="translate(69 32.2) scale(.9)"/><use href="#sg" transform="translate(79 32.2) scale(.9)"/><use href="#sg" transform="translate(89 32.2) scale(.9)"/><use href="#sg" transform="translate(14 34.8) scale(.9)"/><use href="#sg" transform="translate(24 34.8) scale(.9)"/><use href="#sg" transform="translate(34 34.8) scale(.9)"/><use href="#sg" transform="translate(44 34.8) scale(.9)"/><use href="#sg" transform="translate(54 34.8) scale(.9)"/><use href="#sg" transform="translate(64 34.8) scale(.9)"/><use href="#sg" transform="translate(74 34.8) scale(.9)"/><use href="#sg" transform="translate(84 34.8) scale(.9)"/><use href="#sg" transform="translate(19 37.4) scale(.9)"/><use href="#sg" transform="translate(29 37.4) scale(.9)"/><use href="#sg" transform="translate(39 37.4) scale(.9)"/><use href="#sg" transform="translate(49 37.4) scale(.9)"/><use href="#sg" transform="translate(59 37.4) scale(.9)"/><use href="#sg" transform="translate(69 37.4) scale(.9)"/><use href="#sg" transform="translate(79 37.4) scale(.9)"/><use href="#sg" transform="translate(89 37.4) scale(.9)"/><use href="#sg" transform="translate(14 40) scale(.9)"/><use href="#sg" transform="translate(24 40) scale(.9)"/><use href="#sg" transform="translate(34 40) scale(.9)"/><use href="#sg" transform="translate(44 40) scale(.9)"/><use href="#sg" transform="translate(54 40) scale(.9)"/><use href="#sg" transform="translate(64 40) scale(.9)"/><use href="#sg" transform="translate(74 40) scale(.9)"/><use href="#sg" transform="translate(84 40) scale(.9)"/><use href="#sg" transform="translate(19 42.6) scale(.9)"/><use href="#sg" transform="translate(29 42.6) scale(.9)"/><use href="#sg" transform="translate(39 42.6) scale(.9)"/><use href="#sg" transform="translate(49 42.6) scale(.9)"/><use href="#sg" transform="translate(59 42.6) scale(.9)"/><use href="#sg" transform="translate(69 42.6) scale(.9)"/><use href="#sg" transform="translate(79 42.6) scale(.9)"/><use href="#sg" transform="translate(89 42.6) scale(.9)"/></g><path d="M19 40 Q50 30 81 40" stroke="#3B1F1B" stroke-width="1.6" fill="none"/></g><use href="#rb" fill="none" stroke="#3B1F1B" stroke-width="2.2"/>
+      <path d="M21 40 C16 37 11 36 7 38 C9 42 15 44 21 43Z" fill="#F7F1E6" stroke="#3B1F1B" stroke-width="1.4" stroke-linejoin="round"/><path d="M21 42 C16 45 12 49 10 53 C15 53 20 50 22 46Z" fill="#F7F1E6" stroke="#3B1F1B" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="21" cy="41.5" rx="3.2" ry="3" fill="#F7F1E6" stroke="#3B1F1B" stroke-width="1.4"/></g>
+    <g id="legs" fill="#A8433B" stroke="#3B1F1B" stroke-width="2.2"><ellipse cx="41" cy="92" rx="5.5" ry="6.5"/><ellipse cx="59" cy="92" rx="5.5" ry="6.5"/></g>
+    <g id="torso"><use href="#rb" fill="#A8433B"/><use href="#rb" fill="url(#grain)"/><use href="#rb" fill="none" stroke="#3B1F1B" stroke-width="2.2"/><circle cx="31" cy="62" r="5" fill="#EE9C93" opacity=".75"/><circle cx="69" cy="62" r="5" fill="#EE9C93" opacity=".75"/></g>
+    <g id="scarf"><path d="M62 82 L71 79 L74 96 L65 95Z" fill="var(--s)" stroke="#3B1F1B" stroke-width="1.6" stroke-linejoin="round"/><path d="M21 71 Q50 83 79 71 L78 80 Q50 93 22 80Z" fill="var(--s)" stroke="#3B1F1B" stroke-width="1.6" stroke-linejoin="round"/></g>
+    <symbol id="c-an-a" viewBox="0 0 100 100"><g transform="rotate(-5 50 96)"><g fill="#A8433B" stroke="#3B1F1B" stroke-width="2.2" stroke-linejoin="round"><ellipse cx="84" cy="62" rx="7" ry="4.8" transform="rotate(35 84 62)"/></g>
+<use href="#legs"/><use href="#torso"/>
+<path d="M35 42 Q40 39.5 45 41.5 M55 41.5 Q60 39.5 65 42" stroke="#2A1210" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="40" cy="50" r="2.8" fill="#2A1210"/><circle cx="60" cy="50" r="2.8" fill="#2A1210"/>
+<path d="M35.5 48.5 l-3.4 -1.6 M36.3 46.2 l-3 -2.6 M64.5 48.5 l3.4 -1.6 M63.7 46.2 l3 -2.6" stroke="#2A1210" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M45 62 Q50 66.5 55 62" stroke="#2A1210" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<g style="--s:#F4A0BA"><use href="#scarf"/></g><path d="M64 20 l1.9 4.6 4.6 1.9 -4.6 1.9 -1.9 4.6 -1.9 -4.6 -4.6 -1.9 4.6 -1.9z" fill="#E8789F" stroke="#3B1F1B" stroke-width="1.2" stroke-linejoin="round"/>
+<path d="M16 42 L21 53" stroke="#3B1F1B" stroke-width="4.6" stroke-linecap="round"/><path d="M16 42 L21 53" stroke="#F4A0BA" stroke-width="2.2" stroke-linecap="round"/>
+<circle cx="13" cy="33" r="9.2" fill="#F4A0BA" stroke="#3B1F1B" stroke-width="1.8"/><circle cx="13" cy="33" r="6.2" fill="#F7F1E6" stroke="#3B1F1B" stroke-width="1"/><path d="M9.5 30.5 L12 28.2" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+<g fill="#A8433B" stroke="#3B1F1B" stroke-width="2.2" stroke-linejoin="round"><ellipse cx="21" cy="57" rx="7.5" ry="4.8" transform="rotate(-80 21 57)"/></g>
+<path d="M88 26 l1.2 2.8 2.8 1.2 -2.8 1.2 -1.2 2.8 -1.2 -2.8 -2.8 -1.2 2.8 -1.2z" fill="#F2C14E" stroke="#3B1F1B" stroke-width=".9" stroke-linejoin="round"/></g></symbol><symbol id="c-an-b" viewBox="0 0 100 100"><g transform="rotate(6 50 96)"><use href="#legs"/><use href="#torso"/>
+<path d="M35 43 Q40 40.5 45 42.5 M55 42.5 Q60 40.5 65 43" stroke="#2A1210" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<path d="M34 52 Q40 46 46 52 M54 52 Q60 46 66 52" stroke="#2A1210" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M44 63 Q50 69 56 63" stroke="#2A1210" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<g fill="#A8433B" stroke="#3B1F1B" stroke-width="2.2" stroke-linejoin="round"><ellipse cx="26" cy="63" rx="6.5" ry="4.5" transform="rotate(-30 26 63)"/><ellipse cx="74" cy="63" rx="6.5" ry="4.5" transform="rotate(30 74 63)"/></g>
+<g style="--s:#F4A0BA"><use href="#scarf"/></g><path d="M64 20 l1.9 4.6 4.6 1.9 -4.6 1.9 -1.9 4.6 -1.9 -4.6 -4.6 -1.9 4.6 -1.9z" fill="#E8789F" stroke="#3B1F1B" stroke-width="1.2" stroke-linejoin="round"/>
+<path d="M86 32 C80 28 83 23 86 26 C89 23 92 28 86 32Z" fill="#E8789F" stroke="#3B1F1B" stroke-width="1" stroke-linejoin="round"/><path d="M13 30 C9 27 11 23 13 25 C15 23 17 27 13 30Z" fill="#F4A0BA" stroke="#3B1F1B" stroke-width=".9" stroke-linejoin="round"/></g></symbol><symbol id="c-zun-a" viewBox="0 0 100 100"><g transform="rotate(0 50 96)"><g fill="#A8433B" stroke="#3B1F1B" stroke-width="2.2" stroke-linejoin="round"><ellipse cx="84" cy="48" rx="8" ry="5" transform="rotate(-60 84 48)"/><ellipse cx="17" cy="64" rx="7" ry="4.8" transform="rotate(35 17 64)"/></g>
+<use href="#legs"/><use href="#torso"/>
+<path d="M33 42 L45 45 M67 42 L55 45" stroke="#2A1210" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="51" r="2.8" fill="#2A1210"/><circle cx="60" cy="51" r="2.8" fill="#2A1210"/>
+<path d="M43 61 Q50 68 57 61Z" fill="#7A2A2A" stroke="#2A1210" stroke-width="1.4" stroke-linejoin="round"/>
+<g style="--s:#5B8FD0"><use href="#scarf"/></g><use href="#capart"/>
+<path d="M93 37 L97 33 M94 45 L99 44 M91 30 L93 25" stroke="#3B1F1B" stroke-width="1.6" stroke-linecap="round" fill="none"/></g></symbol><symbol id="c-zun-b" viewBox="0 0 100 100"><g transform="rotate(5 50 96)"><g fill="#A8433B" stroke="#3B1F1B" stroke-width="2.2" stroke-linejoin="round"><ellipse cx="16" cy="68" rx="7.5" ry="4.8" transform="rotate(-45 16 68)"/><ellipse cx="85" cy="50" rx="7.5" ry="4.8" transform="rotate(50 85 50)"/><ellipse cx="36" cy="92" rx="5.5" ry="6.5"/><ellipse cx="64" cy="90" rx="5.5" ry="6.5" transform="rotate(-18 64 90)"/></g>
+<use href="#torso"/>
+<path d="M33 43 L45 43 M55 43 L67 43" stroke="#2A1210" stroke-width="2.8" stroke-linecap="round"/><circle cx="41" cy="50" r="2.8" fill="#2A1210"/><circle cx="61" cy="50" r="2.8" fill="#2A1210"/>
+<path d="M42 60 Q50 71 58 60Z" fill="#7A2A2A" stroke="#2A1210" stroke-width="1.4" stroke-linejoin="round"/>
+<g style="--s:#5B8FD0"><use href="#scarf"/></g><use href="#capart"/></g></symbol><symbol id="c-kin-a" viewBox="0 0 100 100"><g transform="rotate(0 50 96)"><g fill="#A8433B" stroke="#3B1F1B" stroke-width="2.2" stroke-linejoin="round"><ellipse cx="12" cy="62" rx="8" ry="4.8" transform="rotate(-10 12 62)"/><ellipse cx="88" cy="62" rx="8" ry="4.8" transform="rotate(10 88 62)"/></g>
+<use href="#legs"/><use href="#torso"/>
+<path d="M34 42 Q40 39 46 41 M54 41 Q60 39 66 42" stroke="#2A1210" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<path d="M34 51 Q40 44.5 46 51 M54 51 Q60 44.5 66 51" stroke="#2A1210" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+<path d="M39 59 Q50 75 61 59Z" fill="#7A2A2A" stroke="#2A1210" stroke-width="1.6" stroke-linejoin="round"/><path d="M44 68 Q50 72 56 68 Q50 65 44 68Z" fill="#EE9C93"/>
+<g style="--s:#F6D14A"><use href="#scarf"/></g><g transform="translate(66 25)" stroke="#3B1F1B" stroke-width="1.1"><circle cx="0" cy="-4.4" r="3.8" fill="#FFE680"/><circle cx="4.4" cy="0" r="3.8" fill="#FFE680"/><circle cx="0" cy="4.4" r="3.8" fill="#FFE680"/><circle cx="-4.4" cy="0" r="3.8" fill="#FFE680"/><circle r="2.6" fill="#F08A4B"/></g></g></symbol><symbol id="c-kin-b" viewBox="0 0 100 100"><g transform="rotate(-4 50 96)"><g fill="#A8433B" stroke="#3B1F1B" stroke-width="2.2" stroke-linejoin="round"><ellipse cx="84" cy="48" rx="8" ry="5" transform="rotate(-60 84 48)"/><ellipse cx="17" cy="64" rx="7" ry="4.8" transform="rotate(35 17 64)"/></g>
+<use href="#legs"/><use href="#torso"/>
+<path d="M34 42 Q40 39 46 41 M54 41 Q60 39 66 42" stroke="#2A1210" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<path d="M34 51 Q40 44.5 46 51 M54 51 Q60 44.5 66 51" stroke="#2A1210" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+<path d="M38 60 Q50 73 62 60" stroke="#2A1210" stroke-width="2" fill="none" stroke-linecap="round"/>
+<g style="--s:#F6D14A"><use href="#scarf"/></g><g transform="translate(66 25)" stroke="#3B1F1B" stroke-width="1.1"><circle cx="0" cy="-4.4" r="3.8" fill="#FFE680"/><circle cx="4.4" cy="0" r="3.8" fill="#FFE680"/><circle cx="0" cy="4.4" r="3.8" fill="#FFE680"/><circle cx="-4.4" cy="0" r="3.8" fill="#FFE680"/><circle r="2.6" fill="#F08A4B"/></g>
+<path d="M92 38 q3.5 2.5 0 6 M96 33 q4.5 3.5 0 8.5" stroke="#3B1F1B" stroke-width="1.6" fill="none" stroke-linecap="round"/></g></symbol>
   </defs>
 </svg>
 
@@ -310,7 +320,7 @@ function renderWrite(){
     `<div class="nav"><button class="btn ghost" id="back">もどる</button><button class="btn mint" id="save">きろくする ⭐</button></div>`;
   const todayBox = (todays.length && (step===1||step===3)) ? `<div class="card" style="padding:12px 14px"><div class="group" style="margin:0 0 6px">${draft.date?dateLabel(dk)+'の':'きょうの'} ここまで</div>${chainHtml(todays,true)}</div>` : '';
   const banner = draft.date ? `<div class="note" style="margin:8px 0">📅 ${dateLabel(draft.date)}（${WD[wdOf(draft.date)]}）の きろくを つけています <button class="x" id="toToday" style="margin-left:6px;padding:0 10px">きょうに もどる</button></div>` : '';
-  return `<h1>🌤️ きもちの おそら</h1>
+  return `<h1>🌤️ きもちの おそら</h1>${beanRow()}
     <p class="sub">てんき → じょうけん → ばしょ → きもち の じゅんに えらんでね</p>
     <div class="card" style="padding:8px 14px;display:flex;align-items:center;justify-content:center;gap:10px"><label for="dpick" style="font-weight:700">📅 ひづけ</label><input type="date" id="dpick" value="${dk}" max="${todayKey()}" style="font:inherit;font-size:18px;font-weight:700;color:var(--ink);border:3px solid var(--soft);border-radius:14px;padding:6px 10px;background:#fff;min-height:44px"></div>
     ${banner}${todayBox}${dotsHtml()}${body}${nav}`;
@@ -321,12 +331,16 @@ function wBtn(w){ return `<button class="big ${draft.weather===w.k?'sel':''}" da
 function renderDone(){
   const e = justSaved;
   const todays = sortEntries(entries.filter(x=>x.date===e.date));
-  const msg = e.mood<=3 ? 'おしえてくれて ありがとう。<br>いま よく がんばってるね。' : e.mood<=6 ? 'きろく できたよ！<br>えらいね。' : 'きろく できたよ！<br>いい かんじ だね。';
+  const who = e.mood<=3 ? 2 : e.mood<=6 ? 1 : 0;
+  const say = e.mood<=3 ? 'おしえてくれて ありがとう。<br>「だいじょうぶ、きにしない」。<br>ゆっくり いこうね。'
+            : e.mood<=6 ? 'きろく できたよ！ えらいね。<br>きょうも いっしょに いこうね。'
+            : 'きろく できたよ！ いい かんじ だね。<br>ゆめに むかって、いってらっしゃい！';
+  const msg = `<span style="display:flex;align-items:center;gap:10px;justify-content:center;text-align:left">${beanSvg(FRIENDS[who].id,68)}<span style="background:var(--soft);border-radius:18px;padding:10px 14px;line-height:1.7">${say}</span></span>`;
   return `<h1>🌤️ きもちの おそら</h1>
     <div class="card done pop">
       <div style="display:flex;justify-content:center">${face(e.mood,140)}</div>
       <div class="stamp">${e.date!==todayKey()?'📅 '+dateLabel(e.date)+' ':''}${e.time?'🕒 '+e.time+' ／ ':''} ${pOf(e.place).e} ${wOf(e.weather).e} ${e.mood}てん</div>
-      <p>${msg}</p>
+      <div>${msg}</div>
       ${todays.length>1?`<div style="display:flex;justify-content:center;margin-top:8px">${chainHtml(todays,false)}</div>`:''}
     </div>
     <div class="nav"><button class="btn ghost" id="again">つぎの ばしょ</button><button class="btn" id="goLook">🌈 みてみる</button></div>`;
@@ -396,12 +410,20 @@ function renderLook(){
 
 /* ---------- 画面: ともだち（ルーレット） ---------- */
 const FRIENDS = [
-  {id:'c-an',  n:'あんちゃん', c:'#FFD9DF', msg:'あんこに なりたい あんちゃん。<br>ゆめに むかって、いってらっしゃい！'},
-  {id:'c-zun', n:'ずんちゃん', c:'#D4F0C2', msg:'まめの なかまに なりたい ずんちゃん。<br>きょうも いっしょに いこうね！'},
-  {id:'c-kin', n:'きんちゃん', c:'#FFE7A8', msg:'のんびりやの きんちゃん。<br>「だいじょうぶ、きにしない！」でいこう。'}
+  {id:'c-an-a',  n:'あんちゃん', c:'#FAD2DE', msg:'あんこに なりたい あんちゃん。<br>ゆめに むかって、いってらっしゃい！'},
+  {id:'c-zun-a', n:'ずんちゃん', c:'#CFE3F6', msg:'まめの なかまに なりたい ずんちゃん。<br>きょうも いっしょに いこうね！'},
+  {id:'c-kin-a', n:'きんちゃん', c:'#FFF0A8', msg:'のんびりやの きんちゃん。<br>「だいじょうぶ、きにしない！」でいこう。'}
 ];
-const R_SECT = 6, R_STEP = 360/R_SECT;   // 3人を 2回ずつ ならべる
-let rRot = 0, rPick = null, rSpinning = false, rFresh = false, rLogged = false;
+const PATTERNS = [
+  {f:0, id:'c-an-a',  msg:'かがみで ちぇっく！<br>きょうも かわいく いってらっしゃい。'},
+  {f:1, id:'c-zun-a', msg:'いくぞ！<br>きょうも しっかり いってみよう！'},
+  {f:2, id:'c-kin-a', msg:'ゆったり えがおで いこうね。<br>だいじょうぶ。'},
+  {f:0, id:'c-an-b',  msg:'うっとり にこにこ。<br>きょうも すてきな いちにちに なるよ。'},
+  {f:1, id:'c-zun-b', msg:'しゅっぱつ！<br>いっしょに あるいていこう。'},
+  {f:2, id:'c-kin-b', msg:'ひらひら〜。<br>「だいじょうぶ、きにしない！」'}
+];  // 3人 × 2パターン = 6ます
+const R_SECT = 6, R_STEP = 360/R_SECT;
+let rRot = 0, rPat = 0, rPick = null, rSpinning = false, rFresh = false, rLogged = false;
 let stickers = [];            // シールちょう {id,date,time,f:0-2}
 let sDelArmed = null;
 const SKEY = 'sticker-book';
@@ -421,24 +443,26 @@ async function saveStickers(){
   }catch(e){}
 }
 
+function beanSvg(id,size){ return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true" style="flex:none"><use href="#${id}"/></svg>`; }
+function beanRow(){ return `<div style="display:flex;justify-content:center;gap:4px;margin:0 0 6px">${FRIENDS.map(f=>beanSvg(f.id,44)).join('')}</div>`; }
 function rPt(a, r){ const t=a*Math.PI/180; return [200+r*Math.sin(t), 200-r*Math.cos(t)]; }
 function rWheelSvg(){
   let s = '<circle cx="200" cy="200" r="198" fill="#fff"/>';
   for(let i=0;i<R_SECT;i++){
-    const f = FRIENDS[i%3];
+    const pt_ = PATTERNS[i], f = FRIENDS[pt_.f];
     const p0 = rPt(i*R_STEP,190), p1 = rPt((i+1)*R_STEP,190);
     const mid = i*R_STEP + R_STEP/2, c = rPt(mid,128);
     s += `<path d="M200 200 L${p0[0].toFixed(1)} ${p0[1].toFixed(1)} A190 190 0 0 1 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)} Z" fill="${f.c}" stroke="#fff" stroke-width="4"/>`;
-    s += `<g transform="translate(${c[0].toFixed(1)} ${c[1].toFixed(1)}) rotate(${mid})"><use href="#${f.id}" x="-50" y="-50" width="100" height="100"/></g>`;
+    s += `<g transform="translate(${c[0].toFixed(1)} ${c[1].toFixed(1)}) rotate(${mid})"><use href="#${pt_.id}" x="-50" y="-50" width="100" height="100"/></g>`;
   }
   s += '<circle cx="200" cy="200" r="24" fill="#fff"/><circle cx="200" cy="200" r="12" fill="#FF8FA3"/>';
   return s;
 }
 function rResultHtml(){
   if(rPick===null) return `<div class="card done"><p class="sub">ボタンを おして ルーレットを まわそう<br>きょう シールに かく ともだちが きまるよ</p></div>`;
-  const f = FRIENDS[rPick];
-  const html = `<div class="card done ${rFresh?'pop':''}"><div style="display:flex;justify-content:center"><svg class="rBig" viewBox="0 0 100 100" aria-hidden="true"><use href="#${f.id}"/></svg></div>
-    <div class="stamp">きょうは ${f.n}！</div><p>${f.msg}</p><p class="sub">シールに かいてもらおう ✏️</p>
+  const f = FRIENDS[rPick], pat = PATTERNS[rPat];
+  const html = `<div class="card done ${rFresh?'pop':''}"><div style="display:flex;justify-content:center"><svg class="rBig" viewBox="0 0 100 100" aria-hidden="true"><use href="#${pat.id}"/></svg></div>
+    <div class="stamp">きょうは ${f.n}！</div><p>${pat.msg}</p><p class="sub">シールに かいてもらおう ✏️</p>
     <div class="nav">${rLogged?'<button class="btn mint" disabled>✅ シールちょうに のせたよ</button>':'<button class="btn mint" id="rdone">かけたよ！ ⭐</button>'}</div></div>`;
   rFresh = false;
   return html;
@@ -479,7 +503,7 @@ function spinRoulette(){
   let done = false;
   const fin = ()=>{
     if(done) return; done = true;
-    rSpinning = false; rPick = idx % 3; rFresh = true; rLogged = false;
+    rSpinning = false; rPick = PATTERNS[idx].f; rPat = idx; rFresh = true; rLogged = false;
     if(tab==='roulette') render();
     try{ if(navigator.vibrate) navigator.vibrate(40); }catch(e){}
   };
@@ -568,7 +592,7 @@ function render(){
   html += `<nav class="tabs" aria-label="メニュー">
     <button class="${tab==='write'?'on':''}" data-tab="write"><span class="e">✏️</span>つける</button>
     <button class="${tab==='look'?'on':''}" data-tab="look"><span class="e">🌈</span>みる</button>
-    <button class="${tab==='roulette'?'on':''}" data-tab="roulette"><span class="e">🫘</span>ともだち</button>
+    <button class="${tab==='roulette'?'on':''}" data-tab="roulette"><span class="e" style="display:flex;justify-content:center">${beanSvg("c-zun-a",28)}</span>ともだち</button>
     <button class="${tab==='adult'?'on':''}" data-tab="adult"><span class="e">🔑</span>おとな</button>
   </nav>`;
   $app.innerHTML = html;
