@@ -101,10 +101,55 @@
   @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
   @media (prefers-reduced-motion:reduce){.pop{animation:none}.big{transition:none}}
   button:focus-visible,input:focus-visible,textarea:focus-visible{outline:4px solid var(--ink);outline-offset:2px}
+  .rStage{position:relative;width:min(80vw,320px);height:min(80vw,320px);margin:22px auto 12px}
+  .rPointer{position:absolute;left:50%;top:-14px;transform:translateX(-50%);width:0;height:0;z-index:2;border-left:14px solid transparent;border-right:14px solid transparent;border-top:26px solid var(--ink)}
+  #rwheel{width:100%;height:100%;display:block;will-change:transform}
+  svg.rBig{width:112px;height:112px}
+  .btn:disabled{opacity:.6;cursor:default}
 </style>
 </head>
 <body>
 <div id="app"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- あんちゃん: あんこになりたい、いちばん上のおにいちゃん -->
+    <symbol id="c-an" viewBox="0 0 100 100">
+      <ellipse cx="50" cy="56" rx="35" ry="28" transform="rotate(-14 50 56)" fill="#8c3a36"/>
+      <ellipse cx="38" cy="42" rx="11" ry="5" transform="rotate(-24 38 42)" fill="#b9645d" opacity="0.8"/>
+      <circle cx="40" cy="55" r="4" fill="#2a1414"/><circle cx="61" cy="52" r="4" fill="#2a1414"/>
+      <circle cx="41.4" cy="53.6" r="1.3" fill="#fff"/><circle cx="62.4" cy="50.6" r="1.3" fill="#fff"/>
+      <path d="M34 47 Q40 43 46 46 M56 43 Q62 41 67 45" stroke="#2a1414" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M44 65 Q51 71 58 63" stroke="#2a1414" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="33" cy="63" r="5" fill="#f2a29c" opacity="0.7"/><circle cx="68" cy="59" r="5" fill="#f2a29c" opacity="0.7"/>
+      <path d="M82 20 l2.6 6 6 2.6 -6 2.6 -2.6 6 -2.6 -6 -6 -2.6 6 -2.6z" fill="#ffd45e"/>
+    </symbol>
+    <!-- ずんちゃん: まめのなかまになりたい、まんなか -->
+    <symbol id="c-zun" viewBox="0 0 100 100">
+      <ellipse cx="50" cy="58" rx="34" ry="28" transform="rotate(10 50 58)" fill="#a24d3f"/>
+      <ellipse cx="62" cy="44" rx="11" ry="5" transform="rotate(20 62 44)" fill="#c9786a" opacity="0.8"/>
+      <path d="M50 31 Q42 12 26 16 Q31 32 50 31Z" fill="#7cb948"/>
+      <path d="M50 31 Q60 10 76 15 Q70 33 50 31Z" fill="#96cd5d"/>
+      <path d="M50 31 L50 24" stroke="#5c8f33" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="39" cy="55" r="4.2" fill="#2a1414"/><circle cx="60" cy="58" r="4.2" fill="#2a1414"/>
+      <circle cx="40.4" cy="53.6" r="1.4" fill="#fff"/><circle cx="61.4" cy="56.6" r="1.4" fill="#fff"/>
+      <path d="M42 66 Q50 77 58 68 Z" fill="#5a1f1f"/>
+      <circle cx="31" cy="64" r="5" fill="#f2a29c" opacity="0.7"/><circle cx="68" cy="67" r="5" fill="#f2a29c" opacity="0.7"/>
+    </symbol>
+    <!-- きんちゃん: きにしない、のんびりすえっこ -->
+    <symbol id="c-kin" viewBox="0 0 100 100">
+      <ellipse cx="50" cy="58" rx="33" ry="27" transform="rotate(-6 50 58)" fill="#d46d3c"/>
+      <ellipse cx="38" cy="45" rx="10" ry="4.5" transform="rotate(-18 38 45)" fill="#eb9568" opacity="0.85"/>
+      <path d="M33 56 Q39 49 45 56 M55 55 Q61 48 67 55" stroke="#2a1414" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <path d="M40 65 Q50 76 61 64" stroke="#2a1414" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <circle cx="31" cy="64" r="5.4" fill="#f6b0a5" opacity="0.8"/><circle cx="70" cy="63" r="5.4" fill="#f6b0a5" opacity="0.8"/>
+      <g transform="translate(74 30)">
+        <circle cx="0" cy="-6" r="5" fill="#ffb3c7"/><circle cx="6" cy="0" r="5" fill="#ffb3c7"/>
+        <circle cx="0" cy="6" r="5" fill="#ffb3c7"/><circle cx="-6" cy="0" r="5" fill="#ffb3c7"/>
+        <circle cx="0" cy="0" r="3.6" fill="#ffd45e"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
 
 <script>
 /* ---------- データ ---------- */
@@ -349,6 +394,99 @@ function renderLook(){
     ${chartCard}`;
 }
 
+/* ---------- 画面: ともだち（ルーレット） ---------- */
+const FRIENDS = [
+  {id:'c-an',  n:'あんちゃん', c:'#FFD9DF', msg:'あんこに なりたい あんちゃん。<br>ゆめに むかって、いってらっしゃい！'},
+  {id:'c-zun', n:'ずんちゃん', c:'#D4F0C2', msg:'まめの なかまに なりたい ずんちゃん。<br>きょうも いっしょに いこうね！'},
+  {id:'c-kin', n:'きんちゃん', c:'#FFE7A8', msg:'のんびりやの きんちゃん。<br>「だいじょうぶ、きにしない！」でいこう。'}
+];
+const R_SECT = 6, R_STEP = 360/R_SECT;   // 3人を 2回ずつ ならべる
+let rRot = 0, rPick = null, rSpinning = false, rFresh = false, rLogged = false;
+let stickers = [];            // シールちょう {id,date,time,f:0-2}
+let sDelArmed = null;
+const SKEY = 'sticker-book';
+async function loadStickers(){
+  try{
+    let list = null;
+    if(storageMode==='local'){ const t=window.localStorage.getItem(SKEY); list = t?JSON.parse(t):[]; }
+    else if(storageMode==='claude'){ const r=await window.storage.get(SKEY); list = r?JSON.parse(r.value):[]; }
+    if(Array.isArray(list)) return list.filter(x=>x&&x.id&&x.date&&typeof x.f==='number'&&x.f>=0&&x.f<3);
+  }catch(e){}
+  return [];
+}
+async function saveStickers(){
+  try{
+    if(storageMode==='local') window.localStorage.setItem(SKEY, JSON.stringify(stickers));
+    else if(storageMode==='claude') await window.storage.set(SKEY, JSON.stringify(stickers));
+  }catch(e){}
+}
+
+function rPt(a, r){ const t=a*Math.PI/180; return [200+r*Math.sin(t), 200-r*Math.cos(t)]; }
+function rWheelSvg(){
+  let s = '<circle cx="200" cy="200" r="198" fill="#fff"/>';
+  for(let i=0;i<R_SECT;i++){
+    const f = FRIENDS[i%3];
+    const p0 = rPt(i*R_STEP,190), p1 = rPt((i+1)*R_STEP,190);
+    const mid = i*R_STEP + R_STEP/2, c = rPt(mid,128);
+    s += `<path d="M200 200 L${p0[0].toFixed(1)} ${p0[1].toFixed(1)} A190 190 0 0 1 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)} Z" fill="${f.c}" stroke="#fff" stroke-width="4"/>`;
+    s += `<g transform="translate(${c[0].toFixed(1)} ${c[1].toFixed(1)}) rotate(${mid})"><use href="#${f.id}" x="-50" y="-50" width="100" height="100"/></g>`;
+  }
+  s += '<circle cx="200" cy="200" r="24" fill="#fff"/><circle cx="200" cy="200" r="12" fill="#FF8FA3"/>';
+  return s;
+}
+function rResultHtml(){
+  if(rPick===null) return `<div class="card done"><p class="sub">ボタンを おして ルーレットを まわそう<br>きょう シールに かく ともだちが きまるよ</p></div>`;
+  const f = FRIENDS[rPick];
+  const html = `<div class="card done ${rFresh?'pop':''}"><div style="display:flex;justify-content:center"><svg class="rBig" viewBox="0 0 100 100" aria-hidden="true"><use href="#${f.id}"/></svg></div>
+    <div class="stamp">きょうは ${f.n}！</div><p>${f.msg}</p><p class="sub">シールに かいてもらおう ✏️</p>
+    <div class="nav">${rLogged?'<button class="btn mint" disabled>✅ シールちょうに のせたよ</button>':'<button class="btn mint" id="rdone">かけたよ！ ⭐</button>'}</div></div>`;
+  rFresh = false;
+  return html;
+}
+function stickerBookHtml(){
+  const cnt=[0,0,0]; stickers.forEach(x=>cnt[x.f]++);
+  const mini=(f,sz)=>`<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" aria-hidden="true"><use href="#${FRIENDS[f].id}"/></svg>`;
+  const byD={}; stickers.slice().sort((a,b)=>(a.date+(a.time||'')+a.id)<(b.date+(b.time||'')+b.id)?-1:1).forEach(x=>{ (byD[x.date]=byD[x.date]||[]).push(x); });
+  const days=Object.keys(byD).sort().reverse().slice(0,30);
+  const rows=days.map(d=>`<div class="row"><div class="tm" style="width:70px">${dateLabel(d)}（${WD[wdOf(d)]}）</div><div class="t" style="display:flex;flex-wrap:wrap;gap:6px">${byD[d].map(x=>`<button class="x ${sDelArmed===x.id?'arm':''}" data-sdel="${x.id}" style="min-width:48px;min-height:48px;display:flex;align-items:center;justify-content:center" aria-label="${FRIENDS[x.f].n}のシール">${sDelArmed===x.id?'けす？':mini(x.f,36)}</button>`).join('')}</div></div>`).join('');
+  return `<div class="card"><div class="group" style="margin-top:0">📖 シールちょう</div>
+    <div style="display:flex;justify-content:center;gap:16px;margin-bottom:6px">${FRIENDS.map((f,i)=>`<div style="text-align:center">${mini(i,44)}<div style="font-weight:700;font-size:15px">× ${cnt[i]}</div></div>`).join('')}</div>
+    ${rows || '<p class="sub">「かけたよ！」を おすと、ここに シールが ふえるよ</p>'}
+    ${rows?'<p class="sub">まちがえたら シールを タップ → もういちど タップで けせます</p>':''}</div>`;
+}
+function renderRoulette(){
+  return `<h1>🫘 きょうの ともだち</h1>
+    <p class="sub">あんちゃん・ずんちゃん・きんちゃんの だれが でるかな？</p>
+    <div class="rStage"><div class="rPointer" aria-hidden="true"></div>
+      <svg id="rwheel" viewBox="0 0 400 400" role="img" aria-label="あんちゃん、ずんちゃん、きんちゃんの ルーレット" style="transform:rotate(${rRot}deg)">${rWheelSvg()}</svg></div>
+    <div class="nav"><button class="btn" id="rspin" ${rSpinning?'disabled':''}>${rPick===null?'まわす！':'もういちど'}</button></div>
+    <div id="rres" aria-live="polite">${rResultHtml()}</div>
+    ${stickerBookHtml()}`;
+}
+function spinRoulette(){
+  if(rSpinning) return;
+  const wheel = document.getElementById('rwheel'), btn = document.getElementById('rspin'), box = document.getElementById('rres');
+  if(!wheel || !btn) return;
+  rSpinning = true; rPick = null; btn.disabled = true;
+  if(box) box.innerHTML = '<div class="card done"><p class="sub">どれが でるかな…</p></div>';
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const idx = Math.floor(Math.random()*R_SECT);
+  const jitter = (Math.random()-0.5) * (R_STEP*0.6);
+  const target = (((360 - (idx*R_STEP + R_STEP/2 + jitter)) % 360) + 360) % 360;
+  rRot = rRot - (rRot % 360) + 360*(reduce?1:5) + target;
+  wheel.style.transition = 'transform ' + (reduce?0.6:4.2) + 's cubic-bezier(.12,.7,.1,1)';
+  wheel.style.transform = 'rotate(' + rRot + 'deg)';
+  let done = false;
+  const fin = ()=>{
+    if(done) return; done = true;
+    rSpinning = false; rPick = idx % 3; rFresh = true; rLogged = false;
+    if(tab==='roulette') render();
+    try{ if(navigator.vibrate) navigator.vibrate(40); }catch(e){}
+  };
+  wheel.addEventListener('transitionend', fin, {once:true});
+  setTimeout(fin, reduce ? 900 : 4600);
+}
+
 /* ---------- 画面: おとな ---------- */
 function renderAdult(){
   if(!entries.length) return `<h1>🔑 おとなの ページ</h1><div class="card"><p class="sub">きろくが たまると、曜日・場所ごとの きもちの へいきんと、場所が かわるときの きもちの へんかが ここに でます。</p></div>`;
@@ -426,10 +564,11 @@ function renderAdult(){
 
 /* ---------- 描画 & イベント ---------- */
 function render(){
-  let html = tab==='write' ? renderWrite() : tab==='look' ? renderLook() : renderAdult();
+  let html = tab==='write' ? renderWrite() : tab==='look' ? renderLook() : tab==='roulette' ? renderRoulette() : renderAdult();
   html += `<nav class="tabs" aria-label="メニュー">
     <button class="${tab==='write'?'on':''}" data-tab="write"><span class="e">✏️</span>つける</button>
     <button class="${tab==='look'?'on':''}" data-tab="look"><span class="e">🌈</span>みる</button>
+    <button class="${tab==='roulette'?'on':''}" data-tab="roulette"><span class="e">🫘</span>ともだち</button>
     <button class="${tab==='adult'?'on':''}" data-tab="adult"><span class="e">🔑</span>おとな</button>
   </nav>`;
   $app.innerHTML = html;
@@ -474,7 +613,7 @@ function bind(){
     if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(()=>msg.textContent='コピーしました',fb); } else fb();
   };
   const bk=document.getElementById('backup'); if(bk) bk.onclick=()=>{
-    const data=JSON.stringify({app:'kimochi-sora',version:1,exported:new Date().toISOString(),entries},null,1);
+    const data=JSON.stringify({app:'kimochi-sora',version:1,exported:new Date().toISOString(),entries,stickers},null,1);
     const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));
     const a=document.createElement('a'); a.href=url; a.download='kimochi-backup-'+todayKey()+'.json'; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),2000);
@@ -488,11 +627,20 @@ function bind(){
       if(!Array.isArray(list)) throw new Error('bad');
       const have=new Set(entries.map(e=>e.id)); let n=0;
       list.forEach((e,i)=>{ if(e&&e.date&&typeof e.mood==='number'){ const id=e.id||('r-'+Date.now()+'-'+i); if(!have.has(id)){ entries.push({...e,id,time:e.time||'',tags:e.tags||[],memo:e.memo||''}); have.add(id); n++; } } });
+      let sn=0;
+      if(!Array.isArray(obj)&&Array.isArray(obj.stickers)){ const hs=new Set(stickers.map(x=>x.id));
+        obj.stickers.forEach(x=>{ if(x&&x.id&&x.date&&typeof x.f==='number'&&x.f>=0&&x.f<3&&!hs.has(x.id)){ stickers.push({id:x.id,date:x.date,time:x.time||'',f:x.f}); hs.add(x.id); sn++; } });
+        await saveStickers(); }
       await store.save(entries); render();
-      const m2=document.getElementById('copyMsg'); if(m2) m2.textContent=n+'けん ふっかつしました';
+      const m2=document.getElementById('copyMsg'); if(m2) m2.textContent=n+'けん ふっかつしました'+(sn?'（シール '+sn+'まい）':'');
     }catch(err){ msg.textContent='ファイルを よみこめませんでした'; }
   }; }
   const rf2=document.getElementById('refresh'); if(rf2) rf2.onclick=()=>{ window.location.href = window.location.pathname + '?v=' + Date.now(); };
+  const rsp=document.getElementById('rspin'); if(rsp) rsp.onclick=spinRoulette;
+  const rdn=document.getElementById('rdone'); if(rdn) rdn.onclick=async()=>{ if(rPick===null||rLogged) return;
+    stickers.push({id:'s'+Date.now(), date:todayKey(), time:nowTime(), f:rPick}); rLogged=true; await saveStickers(); render(); };
+  document.querySelectorAll('[data-sdel]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.sdel;
+    if(sDelArmed!==id){ sDelArmed=id; render(); } else { stickers=stickers.filter(x=>x.id!==id); sDelArmed=null; await saveStickers(); render(); } });
   const rs=document.getElementById('reset'); if(rs) rs.onclick=async()=>{ if(!resetArmed){ resetArmed=true; render(); } else { entries=[]; await store.save(entries); resetArmed=false; startDraft(); render(); } };
 }
 
@@ -501,6 +649,7 @@ function bind(){
   let raw = await store.load();
   // 前のバージョンの きろくを 引きつぐ
   entries = raw.map((e,i)=> e.id ? e : {...e, id:'old-'+i, time:e.time||'', tags:e.tags||[], memo:e.memo||''});
+  stickers = await loadStickers();
   startDraft(); render();
 })();
 </script>
